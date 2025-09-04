@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project specific
+.env
+data/database.db
+data/images/*
+!data/images/.gitkeep
+logs/*.log
+logs/screenshots/*
+!logs/screenshots/.gitkeep
+*.db
+config/coordinate_sets/*.json
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Backup files
+*.bak
+*.backup
+*~
