@@ -1,0 +1,19 @@
+{
+  "spreadsheet_url": "",
+  "exchange_rate": 21.0,
+  "profit_threshold": 30,
+  "monthly_sales_threshold": 30,
+  "operation_hours": {
+    "start": "09:00",
+    "end": "23:00"
+  },
+  "retry_settings": {
+    "max_retries": 3,
+    "retry_delay": 5
+  },
+  "human_behavior": {
+    "typing_speed": 0.1,
+    "mouse_speed": 0.5,
+    "random_delay": true
+  }
+}

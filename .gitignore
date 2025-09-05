@@ -35,3 +35,8 @@ desktop.ini
 *.bak
 *.backup
 *~
+
+# Temporary files
+temp_*.png
+temp_*.jpg
+*.tmp
