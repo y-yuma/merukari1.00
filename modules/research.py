@@ -112,23 +112,21 @@ class MercariResearcher:
         return products
 
     def navigate_to_mercari(self):
-        """メルカリトップページへ移動"""
-        self.logger.debug("メルカリトップページへ移動")
+        """メルカリトップページへ移動（ロゴクリック方式）"""
+        self.logger.debug("メルカリトップページへ移動（ロゴクリック）")
         
-        # URLバーにフォーカス
-        pyautogui.hotkey('ctrl', 'l')
-        time.sleep(0.5)
-        
-        # URL入力
-        self.human.type_like_human('https://jp.mercari.com')
-        pyautogui.press('enter')
-        
-        # ページ読み込み待機
-        time.sleep(3)
-        
-        # ロゴが表示されているか確認
+        # ロゴクリックでトップページに移動
         if 'logo' in self.coords:
+            self.logger.debug("ロゴをクリックしてトップページに移動")
+            self.human.move_and_click(self.coords['logo'])
+            time.sleep(2)  # ページ読み込み待機
+            
+            # ロゴが表示されているか確認（トップページ移動完了の確認）
             self.rpa.wait_for_element(self.coords['logo'], timeout=10)
+            self.logger.info("✓ メルカリトップページ移動完了")
+        else:
+            self.logger.error("ロゴの座標が設定されていません")
+            raise ValueError("ロゴの座標が設定されていません")
 
     def select_category_hierarchy(self, category_path: List[str]):
         """
@@ -146,10 +144,10 @@ class MercariResearcher:
         # カテゴリー階層を順番に選択
         category_coords_map = {
             '家電・スマホ・カメラ': 'category_electronics',
-            'おもちゃ・ホビー・グッズ': 'category_toys',
-            'スポーツ・レジャー': 'category_sports',
             'PC/タブレット': 'category_pc_tablet',
             'PC周辺機器': 'category_pc_accessories',
+            'おもちゃ・ホビー・グッズ': 'category_toys',
+            'スポーツ・レジャー': 'category_sports',
             'おもちゃ': 'category_toys_general',
             'キャラクターグッズ': 'category_character',
             'トレーニング/エクササイズ': 'category_training',

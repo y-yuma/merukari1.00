@@ -40,7 +40,7 @@ class CoordinateMapper:
                 self.print_summary()
                 break
             elif choice == "1":
-                self.map_mercari_coordinates()
+                self.map_mercari_coordinates_flexible()
             elif choice == "2":
                 self.map_alibaba_coordinates()
             elif choice == "3":
@@ -55,6 +55,374 @@ class CoordinateMapper:
                 self.test_coordinates()
             else:
                 print("無効な選択です")
+
+    def map_mercari_coordinates_flexible(self):
+        """メルカリ用座標マッピング（柔軟設定版）"""
+        self.current_module = "mercari"
+        print("\n" + "=" * 80)
+        print("メルカリモジュール座標設定（柔軟設定モード）")
+        print("=" * 80)
+        print("\nメルカリのページを開いて準備してください")
+        print("このモードでは設定項目を自由にカスタマイズできます")
+        input("準備ができたらEnterキーを押してください...")
+        
+        mercari_coords = {}
+        
+        # 既存設定の確認
+        existing_coords = self.load_coordinates('mercari')
+        if existing_coords and len(existing_coords) > 1:
+            print(f"\n既存の設定が見つかりました（{len(existing_coords)-1}項目）")
+            use_existing = input("既存設定をベースにしますか？ (y/n): ").lower()
+            if use_existing == 'y':
+                mercari_coords = existing_coords.copy()
+                print("既存設定を読み込みました")
+        
+        # 設定項目の管理
+        setting_items = self.manage_setting_items()
+        
+        # フロー確認
+        self.confirm_setting_flow(setting_items)
+        
+        # 座標設定実行
+        mercari_coords = self.execute_flexible_coordinate_setting(setting_items, mercari_coords)
+        
+        # 保存
+        self.save_coordinates(mercari_coords, 'mercari')
+        print(f"\n✓ メルカリ座標設定完了: {len(mercari_coords)}項目")
+
+    def manage_setting_items(self):
+        """設定項目の管理"""
+        print("\n" + "=" * 60)
+        print("設定項目の管理")
+        print("=" * 60)
+        
+        # デフォルト設定項目
+        default_items = [
+            {'id': 'logo', 'name': 'メルカリロゴ', 'category': 'basic'},
+            {'id': 'search_bar', 'name': '検索バー', 'category': 'basic'},
+            {'id': 'category_button', 'name': 'カテゴリーボタン', 'category': 'category'},
+            {'id': 'all_categories_button', 'name': 'すべてボタン', 'category': 'category'},
+            {'id': 'category_electronics', 'name': '家電・スマホ・カメラ', 'category': 'category'},
+            {'id': 'category_pc_tablet', 'name': 'PC/タブレット', 'category': 'category'},
+            {'id': 'category_pc_accessories', 'name': 'PC周辺機器', 'category': 'category'},
+            {'id': 'filter_button', 'name': '詳細検索ボタン', 'category': 'filter'},
+            {'id': 'condition_new', 'name': '新品・未使用', 'category': 'filter'},
+            {'id': 'price_min', 'name': '最低価格入力欄', 'category': 'filter'},
+            {'id': 'price_max', 'name': '最高価格入力欄', 'category': 'filter'},
+            {'id': 'search_button', 'name': '検索実行ボタン', 'category': 'filter'},
+            {'id': 'product_grid_1', 'name': '商品1番目', 'category': 'product'},
+            {'id': 'product_grid_2', 'name': '商品2番目', 'category': 'product'},
+            {'id': 'product_grid_3', 'name': '商品3番目', 'category': 'product'},
+            {'id': 'product_title', 'name': '商品タイトル', 'category': 'detail'},
+            {'id': 'product_price', 'name': '商品価格', 'category': 'detail'},
+            {'id': 'product_image_main', 'name': 'メイン商品画像', 'category': 'detail'},
+            {'id': 'seller_name', 'name': '販売者名', 'category': 'detail'},
+        ]
+        
+        print("デフォルト設定項目:")
+        for i, item in enumerate(default_items, 1):
+            print(f"{i:2d}. [{item['category']}] {item['name']} ({item['id']})")
+        
+        print("\n設定項目のカスタマイズ:")
+        print("1. デフォルト設定をそのまま使用")
+        print("2. 項目を選択して設定")
+        print("3. 項目を追加・削除・順序変更")
+        
+        choice = input("\n選択 (1-3): ")
+        
+        if choice == "1":
+            return default_items
+        elif choice == "2":
+            return self.select_items_from_default(default_items)
+        elif choice == "3":
+            return self.customize_items(default_items)
+        else:
+            print("無効な選択です。デフォルト設定を使用します。")
+            return default_items
+
+    def select_items_from_default(self, default_items):
+        """デフォルト項目から選択"""
+        print("\n設定したい項目を選択してください（複数選択可）:")
+        print("例: 1,3,5-8,10  または  all")
+        
+        selection = input("\n選択: ").strip()
+        
+        if selection.lower() == 'all':
+            return default_items
+        
+        selected_items = []
+        try:
+            # 選択範囲の解析
+            parts = selection.split(',')
+            indices = set()
+            
+            for part in parts:
+                part = part.strip()
+                if '-' in part:
+                    start, end = map(int, part.split('-'))
+                    indices.update(range(start-1, end))
+                else:
+                    indices.add(int(part)-1)
+            
+            for i in sorted(indices):
+                if 0 <= i < len(default_items):
+                    selected_items.append(default_items[i])
+            
+        except ValueError:
+            print("入力形式が不正です。デフォルト設定を使用します。")
+            return default_items
+        
+        print(f"\n選択された項目: {len(selected_items)}個")
+        for item in selected_items:
+            print(f"  - {item['name']}")
+        
+        return selected_items
+
+    def customize_items(self, default_items):
+        """項目のカスタマイズ"""
+        print("\n" + "=" * 60)
+        print("項目カスタマイズモード")
+        print("=" * 60)
+        
+        items = default_items.copy()
+        
+        while True:
+            print(f"\n現在の設定項目 ({len(items)}個):")
+            for i, item in enumerate(items, 1):
+                print(f"{i:2d}. [{item['category']}] {item['name']}")
+            
+            print("\nカスタマイズオプション:")
+            print("1. 項目を追加")
+            print("2. 項目を削除")
+            print("3. 項目の順序を変更")
+            print("4. 項目を挿入")
+            print("5. 設定完了")
+            
+            choice = input("\n選択 (1-5): ")
+            
+            if choice == "1":
+                items = self.add_custom_item(items)
+            elif choice == "2":
+                items = self.remove_item(items)
+            elif choice == "3":
+                items = self.reorder_items(items)
+            elif choice == "4":
+                items = self.insert_item(items)
+            elif choice == "5":
+                break
+            else:
+                print("無効な選択です")
+        
+        return items
+
+    def add_custom_item(self, items):
+        """カスタム項目の追加"""
+        print("\n新しい項目を追加:")
+        item_id = input("項目ID (英数字): ").strip()
+        item_name = input("項目名: ").strip()
+        
+        categories = ['basic', 'category', 'filter', 'product', 'detail', 'custom']
+        print("カテゴリー:", ", ".join(categories))
+        item_category = input("カテゴリー: ").strip()
+        
+        if item_category not in categories:
+            item_category = 'custom'
+        
+        new_item = {
+            'id': item_id,
+            'name': item_name,
+            'category': item_category
+        }
+        
+        items.append(new_item)
+        print(f"項目 '{item_name}' を追加しました")
+        return items
+
+    def remove_item(self, items):
+        """項目の削除"""
+        if not items:
+            print("削除する項目がありません")
+            return items
+        
+        try:
+            index = int(input("削除する項目番号: ")) - 1
+            if 0 <= index < len(items):
+                removed = items.pop(index)
+                print(f"項目 '{removed['name']}' を削除しました")
+            else:
+                print("無効な番号です")
+        except ValueError:
+            print("数値を入力してください")
+        
+        return items
+
+    def insert_item(self, items):
+        """項目の挿入"""
+        print("\n項目を挿入:")
+        try:
+            position = int(input("挿入位置 (1からの番号): ")) - 1
+            if position < 0:
+                position = 0
+            elif position > len(items):
+                position = len(items)
+            
+            item_id = input("項目ID: ").strip()
+            item_name = input("項目名: ").strip()
+            item_category = input("カテゴリー: ").strip() or 'custom'
+            
+            new_item = {
+                'id': item_id,
+                'name': item_name,
+                'category': item_category
+            }
+            
+            items.insert(position, new_item)
+            print(f"項目 '{item_name}' を位置 {position+1} に挿入しました")
+            
+        except ValueError:
+            print("無効な入力です")
+        
+        return items
+
+    def reorder_items(self, items):
+        """項目の順序変更"""
+        print("\n順序変更:")
+        print("移動したい項目番号と移動先を指定")
+        
+        try:
+            from_index = int(input("移動元番号: ")) - 1
+            to_index = int(input("移動先番号: ")) - 1
+            
+            if 0 <= from_index < len(items) and 0 <= to_index < len(items):
+                item = items.pop(from_index)
+                items.insert(to_index, item)
+                print(f"項目 '{item['name']}' を移動しました")
+            else:
+                print("無効な番号です")
+        except ValueError:
+            print("数値を入力してください")
+        
+        return items
+
+    def confirm_setting_flow(self, items):
+        """設定フローの確認"""
+        print("\n" + "=" * 60)
+        print("設定フローの確認")
+        print("=" * 60)
+        print("以下の順序で座標設定を行います:")
+        
+        for i, item in enumerate(items, 1):
+            print(f"{i:2d}. {item['name']} ({item['id']})")
+        
+        print(f"\n合計 {len(items)} 項目の設定を行います")
+        
+        confirm = input("\nこの順序で設定を開始しますか？ (y/n): ").lower()
+        if confirm != 'y':
+            print("設定をキャンセルしました")
+            return False
+        
+        return True
+
+    def execute_flexible_coordinate_setting(self, items, existing_coords):
+        """柔軟な座標設定の実行"""
+        coords = existing_coords.copy() if existing_coords else {}
+        
+        print("\n" + "=" * 60)
+        print("座標設定開始")
+        print("=" * 60)
+        
+        for i, item in enumerate(items, 1):
+            print(f"\n--- 進捗: {i}/{len(items)} ---")
+            
+            # 既存設定の確認
+            if item['id'] in coords and coords[item['id']]:
+                print(f"既存設定: {item['name']} = {coords[item['id']]}")
+                update = input("再設定しますか？ (y/n/s=スキップ): ").lower()
+                if update == 's':
+                    continue
+                elif update != 'y':
+                    continue
+            
+            # 座標設定
+            coord = self.get_coordinate_with_options(item)
+            
+            if coord == 'BACK' and i > 1:
+                # 前の項目に戻る
+                prev_item = items[i-2]
+                print(f"前の項目 '{prev_item['name']}' に戻ります")
+                i -= 2
+                continue
+            elif coord == 'SKIP':
+                print(f"項目 '{item['name']}' をスキップしました")
+                continue
+            elif coord:
+                coords[item['id']] = coord
+                print(f"✓ {item['name']}: {coord}")
+        
+        return coords
+
+    def get_coordinate_with_options(self, item):
+        """オプション付き座標取得"""
+        print(f"\n{'=' * 60}")
+        print(f"設定項目: {item['name']}")
+        print(f"ID: {item['id']}")
+        print(f"カテゴリー: {item['category']}")
+        print("-" * 60)
+        print("操作方法:")
+        print("  Enter: 現在位置で座標取得")
+        print("  t: 3秒後に座標取得")
+        print("  s: スキップ")
+        print("  r: やり直し")
+        print("  b: 前の項目に戻る")
+        print("  p: 一時停止（ブラウザ操作の時間）")
+        print("  h: ヘルプ表示")
+        
+        while True:
+            user_input = input("\n入力: ").lower().strip()
+            
+            if user_input == '' or user_input == 'enter':
+                x, y = pyautogui.position()
+                return (x, y)
+            elif user_input == 't':
+                print("\n3秒後に座標を取得します...")
+                for i in range(3, 0, -1):
+                    print(f"{i}...")
+                    time.sleep(1)
+                x, y = pyautogui.position()
+                return (x, y)
+            elif user_input == 's':
+                return 'SKIP'
+            elif user_input == 'r':
+                print("やり直します...")
+                continue
+            elif user_input == 'b':
+                return 'BACK'
+            elif user_input == 'p':
+                print("\n【一時停止】")
+                print("ブラウザで必要な操作を行ってください")
+                print("（例：プルダウンを開く、ページを移動など）")
+                input("操作完了後、Enterキーを押してください...")
+                continue
+            elif user_input == 'h':
+                self.show_coordinate_help()
+                continue
+            else:
+                print("無効な入力です。'h'でヘルプを表示")
+                continue
+
+    def show_coordinate_help(self):
+        """座標設定ヘルプ"""
+        print("\n" + "=" * 40)
+        print("座標設定ヘルプ")
+        print("=" * 40)
+        print("Enter: 現在のマウス位置で座標を記録")
+        print("t: 3秒のカウントダウン後に座標記録")
+        print("s: この項目をスキップ")
+        print("r: この項目をやり直し")
+        print("b: 前の項目に戻る")
+        print("p: 一時停止してブラウザ操作")
+        print("h: このヘルプを表示")
+        print("-" * 40)
 
     def print_header(self):
         """ヘッダー表示"""
@@ -160,198 +528,157 @@ class CoordinateMapper:
         }
 
     def map_mercari_coordinates(self):
-        """メルカリ用座標マッピング（詳細版）"""
+        """メルカリ用座標マッピング（改良版）"""
         self.current_module = "mercari"
         print("\n" + "=" * 80)
         print("メルカリモジュール座標設定")
         print("=" * 80)
         print("\nメルカリのページを開いて準備してください")
+        print("注意：カテゴリー選択では段階的な操作が必要です")
         input("準備ができたらEnterキーを押してください...")
         
         mercari_coords = {}
+        coordinate_history = []  # 設定履歴を保持
         
-        # トップページ要素
-        print("\n【トップページ要素】")
-        mercari_coords['logo'] = self.get_coordinate(
-            'logo',
-            'メルカリロゴ（ホームに戻る用）'
-        )
-        mercari_coords['search_bar'] = self.get_coordinate(
-            'search_bar',
-            '検索バー（使用しないが位置確認用）'
-        )
+        # 基本要素の設定
+        basic_elements = [
+            ('logo', 'メルカリロゴ（ホームに戻る用）'),
+            ('search_bar', '検索バー（使用しないが位置確認用）'),
+        ]
         
-        # カテゴリー関連
-        print("\n【カテゴリー設定】")
-        mercari_coords['category_button'] = self.get_coordinate(
+        for element_id, description in basic_elements:
+            coord = self.get_coordinate_with_history(element_id, description, coordinate_history)
+            if coord and coord != 'BACK':
+                mercari_coords[element_id] = coord
+            elif coord == 'BACK' and coordinate_history:
+                # 前の項目に戻る
+                last_item = coordinate_history.pop()
+                if last_item in mercari_coords:
+                    del mercari_coords[last_item]
+                continue
+        
+        # カテゴリー設定（段階的操作対応）
+        print("\n【カテゴリー設定 - 段階的操作】")
+        print("カテゴリー選択は複数ステップが必要な場合があります")
+        print("例：カテゴリーボタン → 大カテゴリー → サブカテゴリー表示 → 中カテゴリー選択")
+        
+        # カテゴリーボタンの基本設定
+        mercari_coords['category_button'] = self.get_coordinate_with_guidance(
             'category_button',
-            'カテゴリーボタンの位置'
+            'カテゴリーボタンの位置',
+            "メインページのカテゴリーボタンをクリックしてください"
         )
         
-        # 大カテゴリー
-        print("\n【大カテゴリー（第1階層）】")
+        # 大カテゴリーの段階的設定
+        print("\n【大カテゴリー設定】")
         categories_level1 = [
             ('category_electronics', '家電・スマホ・カメラ'),
             ('category_toys', 'おもちゃ・ホビー・グッズ'),
             ('category_sports', 'スポーツ・レジャー'),
-            ('category_mens', 'メンズ'),
-            ('category_ladies', 'レディース'),
-            ('category_baby', 'ベビー・キッズ')
         ]
+        
         for cat_id, cat_name in categories_level1:
-            mercari_coords[cat_id] = self.get_coordinate(cat_id, cat_name)
+            print(f"\n--- {cat_name} の設定 ---")
+            print("手順：")
+            print("1. カテゴリーボタンをクリック")
+            print(f"2. '{cat_name}' を選択")
+            print("3. 必要に応じてサブカテゴリーが表示されるまで待機")
+            
+            coord = self.get_coordinate_with_manual_steps(cat_id, cat_name)
+            if coord:
+                mercari_coords[cat_id] = coord
         
-        # 中カテゴリー
-        print("\n【中カテゴリー（第2階層）】")
+        # 中カテゴリー設定
+        print("\n【中カテゴリー設定】")
+        print("注意：大カテゴリーを選択した後に表示される項目です")
+        
         categories_level2 = [
-            ('category_pc_tablet', 'PC/タブレット'),
-            ('category_smartphone', 'スマートフォン本体'),
-            ('category_camera', 'カメラ'),
-            ('category_toys_general', 'おもちゃ'),
-            ('category_character', 'キャラクターグッズ'),
-            ('category_training', 'トレーニング/エクササイズ')
+            ('category_pc_tablet', 'PC/タブレット（家電・スマホ・カメラ内）'),
+            ('category_toys_general', 'おもちゃ（おもちゃ・ホビー・グッズ内）'),
+            ('category_training', 'トレーニング/エクササイズ（スポーツ・レジャー内）'),
         ]
+        
         for cat_id, cat_name in categories_level2:
-            mercari_coords[cat_id] = self.get_coordinate(cat_id, cat_name)
+            coord = self.get_coordinate_with_manual_steps(cat_id, cat_name)
+            if coord:
+                mercari_coords[cat_id] = coord
         
-        # 小カテゴリー
-        print("\n【小カテゴリー（第3階層）】")
-        categories_level3 = [
-            ('category_pc_accessories', 'PC周辺機器'),
-            ('category_tablet_accessories', 'タブレット'),
-            ('category_smartphone_accessories', 'スマホアクセサリー'),
-            ('category_training_goods', 'トレーニング用品'),
-            ('category_yoga', 'ヨガ'),
-            ('category_running', 'ランニング')
-        ]
-        for cat_id, cat_name in categories_level3:
-            mercari_coords[cat_id] = self.get_coordinate(cat_id, cat_name)
-        
-        # フィルター関連
+        # フィルター設定（簡略化）
         print("\n【フィルター設定】")
-        mercari_coords['filter_button'] = self.get_coordinate(
-            'filter_button',
-            '詳細検索ボタン'
-        )
-        mercari_coords['condition_filter'] = self.get_coordinate(
-            'condition_filter',
-            '商品の状態フィルター'
-        )
-        mercari_coords['condition_new'] = self.get_coordinate(
-            'condition_new',
-            '新品・未使用チェックボックス'
-        )
-        mercari_coords['condition_unused'] = self.get_coordinate(
-            'condition_unused',
-            '未使用に近いチェックボックス'
-        )
-        mercari_coords['price_range'] = self.get_coordinate(
-            'price_range',
-            '価格帯選択'
-        )
-        mercari_coords['price_min'] = self.get_coordinate(
-            'price_min',
-            '最低価格入力欄'
-        )
-        mercari_coords['price_max'] = self.get_coordinate(
-            'price_max',
-            '最高価格入力欄'
-        )
-        mercari_coords['sold_filter'] = self.get_coordinate(
-            'sold_filter',
-            '販売状況フィルター'
-        )
-        mercari_coords['sold_out_checkbox'] = self.get_coordinate(
-            'sold_out_checkbox',
-            '売り切れチェックボックス'
-        )
-        mercari_coords['search_button'] = self.get_coordinate(
-            'search_button',
-            '検索実行ボタン'
-        )
+        filter_elements = [
+            ('filter_button', '詳細検索ボタン'),
+            ('condition_new', '新品・未使用チェックボックス'),
+            ('price_min', '最低価格入力欄'),
+            ('price_max', '最高価格入力欄'),
+            ('search_button', '検索実行ボタン'),
+        ]
         
-        # 商品グリッド（20個まで対応）
+        for element_id, description in filter_elements:
+            coord = self.get_coordinate_with_guidance(element_id, description)
+            if coord:
+                mercari_coords[element_id] = coord
+        
+        # 商品グリッド（最初の5個のみ設定）
         print("\n【商品グリッド設定】")
-        print("※商品一覧の各商品の中心位置をクリック")
-        for i in range(1, 21):
-            coord = self.get_coordinate(
+        print("検索結果画面で商品の位置を設定します")
+        
+        for i in range(1, 6):  # 最初の5個のみ
+            coord = self.get_coordinate_with_guidance(
                 f'product_grid_{i}',
-                f'{i}番目の商品位置（{(i-1)//5 + 1}行{(i-1)%5 + 1}列目）'
+                f'{i}番目の商品位置',
+                f"検索結果の{i}番目の商品をクリックしてください"
             )
             if coord:
                 mercari_coords[f'product_grid_{i}'] = coord
-            else:
-                if i <= 10:  # 最初の10個は必須
-                    print(f"警告: 商品グリッド{i}は必須項目です")
         
-        # 商品詳細ページ
+        # 商品詳細ページ要素
         print("\n【商品詳細ページ要素】")
-        mercari_coords['product_title'] = self.get_coordinate(
-            'product_title',
-            '商品タイトル位置'
-        )
-        mercari_coords['product_price'] = self.get_coordinate(
-            'product_price',
-            '商品価格位置'
-        )
-        mercari_coords['product_description'] = self.get_coordinate(
-            'product_description',
-            '商品説明文エリア'
-        )
+        detail_elements = [
+            ('product_title', '商品タイトル位置'),
+            ('product_price', '商品価格位置'),
+            ('product_image_main', 'メイン商品画像の中心'),
+            ('seller_name', '販売者名表示位置'),
+        ]
         
-        # 商品画像エリア
-        print("\n【商品画像エリア】")
-        image_area = self.get_area_coordinates(
-            'product_image_area',
-            '商品画像表示エリア（複数画像対応）'
-        )
-        if image_area:
-            mercari_coords['product_image_area'] = image_area
-        
-        mercari_coords['product_image_main'] = self.get_coordinate(
-            'product_image_main',
-            'メイン商品画像の中心'
-        )
-        
-        # 販売者情報
-        print("\n【販売者情報】")
-        mercari_coords['seller_name'] = self.get_coordinate(
-            'seller_name',
-            '販売者名表示位置'
-        )
-        mercari_coords['seller_rating'] = self.get_coordinate(
-            'seller_rating',
-            '販売者評価表示位置'
-        )
-        
-        # 売却情報エリア
-        print("\n【売却情報エリア】")
-        mercari_coords['sold_label'] = self.get_coordinate(
-            'sold_label',
-            'SOLDラベル位置'
-        )
-        
-        sold_history_area = self.get_area_coordinates(
-            'sold_history_area',
-            '売却履歴表示エリア（3日間売上カウント用）'
-        )
-        if sold_history_area:
-            mercari_coords['sold_history_area'] = sold_history_area
-        
-        # ナビゲーション
-        print("\n【ナビゲーション】")
-        mercari_coords['back_button'] = self.get_coordinate(
-            'back_button',
-            '戻るボタン位置'
-        )
-        mercari_coords['next_page'] = self.get_coordinate(
-            'next_page',
-            '次のページボタン'
-        )
+        for element_id, description in detail_elements:
+            coord = self.get_coordinate_with_guidance(element_id, description)
+            if coord:
+                mercari_coords[element_id] = coord
         
         # 保存
         self.save_coordinates(mercari_coords, 'mercari')
         print(f"\n✓ メルカリ座標設定完了: {len(mercari_coords)}項目")
+
+    def get_coordinate_with_guidance(self, name: str, description: str, guidance: str = "") -> Optional[Tuple[int, int]]:
+        """ガイダンス付き座標取得"""
+        print(f"\n{'=' * 60}")
+        print(f"設定項目: {name}")
+        print(f"説明: {description}")
+        if guidance:
+            print(f"手順: {guidance}")
+        print("-" * 60)
+        
+        return self.get_coordinate(name, description)
+
+    def get_coordinate_with_manual_steps(self, name: str, description: str) -> Optional[Tuple[int, int]]:
+        """手動ステップ付き座標取得"""
+        print(f"\n{'=' * 60}")
+        print(f"設定項目: {name}")
+        print(f"説明: {description}")
+        print("-" * 60)
+        print("【重要】複数ステップが必要な可能性があります")
+        print("  p: 一時停止して手動操作")
+        print("  m: 複数座標モード")
+        print("  通常通り座標を設定する場合はそのまま進んでください")
+        
+        return self.get_coordinate(name, description)
+
+    def get_coordinate_with_history(self, name: str, description: str, history: list) -> Optional[Tuple[int, int]]:
+        """履歴管理付き座標取得"""
+        result = self.get_coordinate(name, description)
+        if result and result != 'BACK':
+            history.append(name)
+        return result
 
     def map_alibaba_coordinates(self):
         """アリババ用座標マッピング（基本版）"""
