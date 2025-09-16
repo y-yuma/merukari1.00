@@ -1,0 +1,363 @@
+{
+  "source_folder": "data/images/upload",
+  "timestamp": "20250916_165619",
+  "total_images": 11,
+  "ok_count": 0,
+  "ng_count": 7,
+  "error_count": 4,
+  "results": [
+    {
+      "file_path": "data/images/upload/test03.jpg",
+      "file_name": "test03.jpg",
+      "timestamp": "2025-09-16T16:56:16.160064",
+      "is_business": false,
+      "score": 60,
+      "details": {
+        "商品実物チェック": {
+          "score": 10,
+          "max_score": 40,
+          "reason": "判定困難（低情報量）"
+        },
+        "撮影品質チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "統一背景・良照明（プロ撮影）"
+        },
+        "販売努力チェック": {
+          "score": 20,
+          "max_score": 30,
+          "reason": "良好な撮影品質"
+        }
+      },
+      "reasons": [
+        "ハードNG判定により即NG（箱/パッケージのみ、または袋/シュリンク包装）",
+        "商品実物チェック: 判定困難（低情報量） (10/40点)",
+        "撮影品質チェック: 統一背景・良照明（プロ撮影） (30/30点)",
+        "販売努力チェック: 良好な撮影品質 (20/30点)"
+      ],
+      "rule_results": {
+        "package_only": {
+          "triggered": false,
+          "detail": "箱/パッケージ推定: 0/4条件一致"
+        },
+        "bag_shrinkwrap": {
+          "triggered": true,
+          "detail": "袋/シュリンク推定: 2/3条件一致"
+        }
+      },
+      "error": null,
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/test03_20250916_165616.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test07.jpg",
+      "file_name": "test07.jpg",
+      "timestamp": "2025-09-16T16:56:16.709936",
+      "is_business": false,
+      "score": 0,
+      "details": {},
+      "reasons": [],
+      "rule_results": {},
+      "error": "分析エラー: module 'numpy' has no attribute 'int0'",
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/test07.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test06.jpg",
+      "file_name": "test06.jpg",
+      "timestamp": "2025-09-16T16:56:16.906234",
+      "is_business": false,
+      "score": 60,
+      "details": {
+        "商品実物チェック": {
+          "score": 10,
+          "max_score": 40,
+          "reason": "判定困難（低情報量）"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 30,
+          "reason": "整った背景"
+        },
+        "販売努力チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "高品質・情報量多い（プロ撮影）"
+        }
+      },
+      "reasons": [
+        "ハードNG判定により即NG（箱/パッケージのみ、または袋/シュリンク包装）",
+        "商品実物チェック: 判定困難（低情報量） (10/40点)",
+        "撮影品質チェック: 整った背景 (20/30点)",
+        "販売努力チェック: 高品質・情報量多い（プロ撮影） (30/30点)"
+      ],
+      "rule_results": {
+        "package_only": {
+          "triggered": false,
+          "detail": "箱/パッケージ推定: 0/4条件一致"
+        },
+        "bag_shrinkwrap": {
+          "triggered": true,
+          "detail": "袋/シュリンク推定: 2/3条件一致"
+        }
+      },
+      "error": null,
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/test06_20250916_165617.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test04.jpg",
+      "file_name": "test04.jpg",
+      "timestamp": "2025-09-16T16:56:17.285390",
+      "is_business": false,
+      "score": 60,
+      "details": {
+        "商品実物チェック": {
+          "score": 10,
+          "max_score": 40,
+          "reason": "判定困難（低情報量）"
+        },
+        "撮影品質チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "統一背景・良照明（プロ撮影）"
+        },
+        "販売努力チェック": {
+          "score": 20,
+          "max_score": 30,
+          "reason": "良好な撮影品質"
+        }
+      },
+      "reasons": [
+        "ハードNG判定により即NG（箱/パッケージのみ、または袋/シュリンク包装）",
+        "商品実物チェック: 判定困難（低情報量） (10/40点)",
+        "撮影品質チェック: 統一背景・良照明（プロ撮影） (30/30点)",
+        "販売努力チェック: 良好な撮影品質 (20/30点)"
+      ],
+      "rule_results": {
+        "package_only": {
+          "triggered": false,
+          "detail": "箱/パッケージ推定: 0/4条件一致"
+        },
+        "bag_shrinkwrap": {
+          "triggered": true,
+          "detail": "袋/シュリンク推定: 2/3条件一致"
+        }
+      },
+      "error": null,
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/test04_20250916_165617.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test10.jpg",
+      "file_name": "test10.jpg",
+      "timestamp": "2025-09-16T16:56:17.665830",
+      "is_business": false,
+      "score": 0,
+      "details": {},
+      "reasons": [],
+      "rule_results": {},
+      "error": "分析エラー: module 'numpy' has no attribute 'int0'",
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/test10_20250916_165617.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test05.jpg",
+      "file_name": "test05.jpg",
+      "timestamp": "2025-09-16T16:56:17.891927",
+      "is_business": false,
+      "score": 60,
+      "details": {
+        "商品実物チェック": {
+          "score": 10,
+          "max_score": 40,
+          "reason": "判定困難（低情報量）"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 30,
+          "reason": "整った背景"
+        },
+        "販売努力チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "高品質・情報量多い（プロ撮影）"
+        }
+      },
+      "reasons": [
+        "ハードNG判定により即NG（箱/パッケージのみ、または袋/シュリンク包装）",
+        "商品実物チェック: 判定困難（低情報量） (10/40点)",
+        "撮影品質チェック: 整った背景 (20/30点)",
+        "販売努力チェック: 高品質・情報量多い（プロ撮影） (30/30点)"
+      ],
+      "rule_results": {
+        "package_only": {
+          "triggered": false,
+          "detail": "箱/パッケージ推定: 0/4条件一致"
+        },
+        "bag_shrinkwrap": {
+          "triggered": true,
+          "detail": "袋/シュリンク推定: 3/3条件一致"
+        }
+      },
+      "error": null,
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/test05_20250916_165618.jpg"
+    },
+    {
+      "file_path": "data/images/upload/ihWbtFm2VGKjnxXGpP8se8.jpg",
+      "file_name": "ihWbtFm2VGKjnxXGpP8se8.jpg",
+      "timestamp": "2025-09-16T16:56:18.251457",
+      "is_business": false,
+      "score": 40,
+      "details": {
+        "商品実物チェック": {
+          "score": 10,
+          "max_score": 40,
+          "reason": "判定困難（低情報量）"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 30,
+          "reason": "整った背景"
+        },
+        "販売努力チェック": {
+          "score": 10,
+          "max_score": 30,
+          "reason": "標準的な撮影"
+        }
+      },
+      "reasons": [
+        "ハードNG判定により即NG（箱/パッケージのみ、または袋/シュリンク包装）",
+        "商品実物チェック: 判定困難（低情報量） (10/40点)",
+        "撮影品質チェック: 整った背景 (20/30点)",
+        "販売努力チェック: 標準的な撮影 (10/30点)"
+      ],
+      "rule_results": {
+        "package_only": {
+          "triggered": false,
+          "detail": "箱/パッケージ推定: 1/4条件一致"
+        },
+        "bag_shrinkwrap": {
+          "triggered": true,
+          "detail": "袋/シュリンク推定: 3/3条件一致"
+        }
+      },
+      "error": null,
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/ihWbtFm2VGKjnxXGpP8se8_20250916_165618.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test002.jpg",
+      "file_name": "test002.jpg",
+      "timestamp": "2025-09-16T16:56:18.395741",
+      "is_business": false,
+      "score": 60,
+      "details": {
+        "商品実物チェック": {
+          "score": 10,
+          "max_score": 40,
+          "reason": "判定困難（低情報量）"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 30,
+          "reason": "整った背景"
+        },
+        "販売努力チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "高品質・情報量多い（プロ撮影）"
+        }
+      },
+      "reasons": [
+        "ハードNG判定により即NG（箱/パッケージのみ、または袋/シュリンク包装）",
+        "商品実物チェック: 判定困難（低情報量） (10/40点)",
+        "撮影品質チェック: 整った背景 (20/30点)",
+        "販売努力チェック: 高品質・情報量多い（プロ撮影） (30/30点)"
+      ],
+      "rule_results": {
+        "package_only": {
+          "triggered": false,
+          "detail": "箱/パッケージ推定: 0/4条件一致"
+        },
+        "bag_shrinkwrap": {
+          "triggered": true,
+          "detail": "袋/シュリンク推定: 3/3条件一致"
+        }
+      },
+      "error": null,
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/test002_20250916_165618.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test001.jpg",
+      "file_name": "test001.jpg",
+      "timestamp": "2025-09-16T16:56:18.558559",
+      "is_business": false,
+      "score": 0,
+      "details": {},
+      "reasons": [],
+      "rule_results": {},
+      "error": "分析エラー: module 'numpy' has no attribute 'int0'",
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/test001_20250916_165618.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test08.jpg",
+      "file_name": "test08.jpg",
+      "timestamp": "2025-09-16T16:56:18.646783",
+      "is_business": false,
+      "score": 0,
+      "details": {},
+      "reasons": [],
+      "rule_results": {},
+      "error": "分析エラー: module 'numpy' has no attribute 'int0'",
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/test08_20250916_165618.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test09.jpg",
+      "file_name": "test09.jpg",
+      "timestamp": "2025-09-16T16:56:18.782232",
+      "is_business": false,
+      "score": 40,
+      "details": {
+        "商品実物チェック": {
+          "score": 10,
+          "max_score": 40,
+          "reason": "判定困難（低情報量）"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 30,
+          "reason": "整った背景"
+        },
+        "販売努力チェック": {
+          "score": 10,
+          "max_score": 30,
+          "reason": "標準的な撮影"
+        }
+      },
+      "reasons": [
+        "ハードNG判定により即NG（箱/パッケージのみ、または袋/シュリンク包装）",
+        "商品実物チェック: 判定困難（低情報量） (10/40点)",
+        "撮影品質チェック: 整った背景 (20/30点)",
+        "販売努力チェック: 標準的な撮影 (10/30点)"
+      ],
+      "rule_results": {
+        "package_only": {
+          "triggered": false,
+          "detail": "箱/パッケージ推定: 1/4条件一致"
+        },
+        "bag_shrinkwrap": {
+          "triggered": true,
+          "detail": "袋/シュリンク推定: 3/3条件一致"
+        }
+      },
+      "error": null,
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/test09_20250916_165619.jpg"
+    }
+  ]
+}

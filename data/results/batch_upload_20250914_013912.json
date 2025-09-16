@@ -1,0 +1,103 @@
+{
+  "source_folder": "data/images/upload",
+  "timestamp": "20250914_013912",
+  "total_images": 3,
+  "ok_count": 0,
+  "ng_count": 0,
+  "error_count": 3,
+  "results": [
+    {
+      "file_path": "data/images/upload/mouse_test.jpg",
+      "file_name": "mouse_test.jpg",
+      "timestamp": "2025-09-14T01:39:12.079434",
+      "is_business": false,
+      "score": 60,
+      "details": {
+        "商品実物チェック": {
+          "score": 10,
+          "max_score": 40,
+          "reason": "判定困難（低品質画像）"
+        },
+        "撮影品質チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "統一された背景・プロ照明"
+        },
+        "販売努力チェック": {
+          "score": 20,
+          "max_score": 30,
+          "reason": "良好な撮影品質"
+        }
+      },
+      "reasons": [
+        "商品実物チェック: 判定困難（低品質画像） (10/40点)",
+        "撮影品質チェック: 統一された背景・プロ照明 (30/30点)",
+        "販売努力チェック: 良好な撮影品質 (20/30点)"
+      ],
+      "error": "ファイル処理エラー: 'ImageAnalyzer' object has no attribute '_move_or_copy_image'",
+      "saved_to": "NG"
+    },
+    {
+      "file_path": "data/images/upload/test002.jpg",
+      "file_name": "test002.jpg",
+      "timestamp": "2025-09-14T01:39:12.359984",
+      "is_business": false,
+      "score": 60,
+      "details": {
+        "商品実物チェック": {
+          "score": 10,
+          "max_score": 40,
+          "reason": "判定困難（低品質画像）"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 30,
+          "reason": "整った背景"
+        },
+        "販売努力チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "高品質・情報量多い（プロ撮影）"
+        }
+      },
+      "reasons": [
+        "商品実物チェック: 判定困難（低品質画像） (10/40点)",
+        "撮影品質チェック: 整った背景 (20/30点)",
+        "販売努力チェック: 高品質・情報量多い（プロ撮影） (30/30点)"
+      ],
+      "error": "ファイル処理エラー: 'ImageAnalyzer' object has no attribute '_move_or_copy_image'",
+      "saved_to": "NG"
+    },
+    {
+      "file_path": "data/images/upload/test001.jpg",
+      "file_name": "test001.jpg",
+      "timestamp": "2025-09-14T01:39:12.453201",
+      "is_business": false,
+      "score": 40,
+      "details": {
+        "商品実物チェック": {
+          "score": 10,
+          "max_score": 40,
+          "reason": "判定困難（低品質画像）"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 30,
+          "reason": "整った背景"
+        },
+        "販売努力チェック": {
+          "score": 10,
+          "max_score": 30,
+          "reason": "標準的な撮影"
+        }
+      },
+      "reasons": [
+        "商品実物チェック: 判定困難（低品質画像） (10/40点)",
+        "撮影品質チェック: 整った背景 (20/30点)",
+        "販売努力チェック: 標準的な撮影 (10/30点)"
+      ],
+      "error": "ファイル処理エラー: 'ImageAnalyzer' object has no attribute '_move_or_copy_image'",
+      "saved_to": "NG"
+    }
+  ]
+}

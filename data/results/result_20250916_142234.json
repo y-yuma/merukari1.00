@@ -1,0 +1,67 @@
+{
+  "file_path": "data/images/upload/test07.jpg",
+  "file_name": "test07.jpg",
+  "timestamp": "2025-09-16T14:22:34.341409",
+  "is_business": true,
+  "score": 90,
+  "details": {
+    "商品実物チェック": {
+      "score": 40,
+      "max_score": 40,
+      "reason": "商品実物の撮影（プロ仕様）"
+    },
+    "撮影品質チェック": {
+      "score": 20,
+      "max_score": 30,
+      "reason": "整った背景"
+    },
+    "販売努力チェック": {
+      "score": 30,
+      "max_score": 30,
+      "reason": "高品質・情報量多い（プロ撮影）"
+    }
+  },
+  "rule_results": [
+    {
+      "rule": "package_detection",
+      "triggered": false,
+      "delta": 0,
+      "force_ng": false,
+      "reason": "大きな矩形面 0.01, テキスト密度 0.03 → 該当せず",
+      "metrics": {
+        "max_rect_area_ratio": 0.008,
+        "text_density": 0.035
+      }
+    },
+    {
+      "rule": "bag_detection",
+      "triggered": false,
+      "delta": 0,
+      "force_ng": false,
+      "reason": "強ハイライト比 0.01, エッジ密度 0.16 → 該当せず",
+      "metrics": {
+        "bright_ratio": 0.005,
+        "edge_density": 0.159
+      }
+    },
+    {
+      "rule": "composite_detection",
+      "triggered": false,
+      "delta": 0,
+      "force_ng": false,
+      "reason": "背景分散 39.3, 白面積比 0.00 → 該当せず",
+      "metrics": {
+        "bg_uniformity": 39.33,
+        "white_area_ratio": 0.004
+      }
+    }
+  ],
+  "reasons": [
+    "商品実物チェック: 商品実物の撮影（プロ仕様） (40/40点)",
+    "撮影品質チェック: 整った背景 (20/30点)",
+    "販売努力チェック: 高品質・情報量多い（プロ撮影） (30/30点)"
+  ],
+  "error": null,
+  "saved_to": "OK",
+  "final_path": "data/images/mercari_ok/test07_20250916_142234.jpg"
+}

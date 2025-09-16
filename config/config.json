@@ -1,19 +1,104 @@
 {
-  "spreadsheet_url": "",
-  "exchange_rate": 21.0,
-  "profit_threshold": 30,
-  "monthly_sales_threshold": 30,
-  "operation_hours": {
-    "start": "09:00",
-    "end": "23:00"
+  "system": {
+    "version": "1.1.0",
+    "author": "メルカリ自動化チーム",
+    "description": "メルカリ画像判定システム設定"
   },
-  "retry_settings": {
-    "max_retries": 3,
-    "retry_delay": 5
+  "image_analysis": {
+    "business_threshold": 70,
+    "max_image_size": 1280,
+
+    "algorithms": {
+      "actual_product_weight": 40,
+      "photo_quality_weight": 30,
+      "sales_effort_weight": 30
+    },
+
+    "quality_thresholds": {
+      "edge_density_high": 0.10,
+      "edge_density_medium": 0.08,
+      "text_density_high": 0.30,
+      "text_density_low": 0.20,
+
+      "background_uniformity_excellent": 30,
+      "background_uniformity_good": 50,
+      "background_uniformity_fair": 70,
+      "brightness_std_excellent": 50,
+
+      "entropy_excellent": 7.0,
+      "entropy_good": 6.5,
+      "entropy_fair": 6.0,
+      "contrast_excellent": 50,
+      "contrast_good": 40,
+      "contrast_fair": 30,
+      "sharpness_excellent": 100
+    },
+
+    "rules": {
+      "enabled": ["package_only", "bag_or_shrinkwrap", "vendor_composite_bonus"],
+
+      "package_only": {
+        "enabled": true,
+        "hard_ng": true,
+        "large_rect_ratio": 0.30,
+        "rect_sides_similarity": 0.20,
+        "text_density_min": 0.18,
+        "bg_uniformity_max": 45
+      },
+
+      "bag_or_shrinkwrap": {
+        "enabled": true,
+        "hard_ng": true,
+        "bright_pixel_ratio": 0.06,
+        "specular_spots_min": 40,
+        "hf_edge_density_min": 0.11
+      },
+
+      "vendor_composite_bonus": {
+        "enabled": true,
+        "hard_ng": false,
+        "solid_bg_uniformity_max": 28,
+        "center_occupancy_min": 0.18,
+        "bonus_points": 10
+      }
+    }
   },
-  "human_behavior": {
-    "typing_speed": 0.1,
-    "mouse_speed": 0.5,
-    "random_delay": true
+
+  "folders": {
+    "upload": "data/images/upload",
+    "mercari_ok": "data/images/mercari_ok",
+    "mercari_ng": "data/images/mercari_ng",
+    "temp": "data/images/temp",
+    "results": "data/results",
+    "logs": "logs"
+  },
+
+  "file_handling": {
+    "supported_formats": [".jpg", ".jpeg", ".png", ".bmp", ".tiff"],
+    "max_file_size_mb": 50,
+    "auto_delete_ng": false,
+    "backup_original": true
+  },
+
+  "logging": {
+    "level": "INFO",
+    "file_enabled": true,
+    "console_enabled": true,
+    "max_log_size_mb": 10,
+    "backup_count": 5
+  },
+
+  "development": {
+    "debug_mode": false,
+    "save_debug_images": false,
+    "show_processing_steps": false,
+    "cache_enabled": true
+  },
+
+  "user_interface": {
+    "language": "ja",
+    "show_detailed_scores": true,
+    "auto_open_results": false,
+    "confirm_before_move": false
   }
 }

@@ -9,6 +9,7 @@ import math
 from typing import Tuple, Optional
 import numpy as np
 import platform
+import pyperclip
 from utils.logger import setup_logger
 
 class HumanBehavior:
@@ -39,8 +40,8 @@ class HumanBehavior:
         pyautogui.PAUSE = 0.1
     
     def get_cmd_key(self):
-        """OSに応じたコマンドキーを取得"""
-        return 'cmd' if self.is_mac else 'ctrl'
+        """OSに応じたコマンドキーを取得（PyAutoGUI用）"""
+        return 'command' if self.is_mac else 'ctrl'
     
     def move_mouse_naturally(self, x: int, y: int, duration: Optional[float] = None):
         """
@@ -132,6 +133,125 @@ class HumanBehavior:
         
         # クリック後の微小な待機
         time.sleep(random.uniform(0.1, 0.2))
+    
+    def command_click(self, coords: Tuple[int, int]):
+        """
+        中クリック（新タブで開く）- デバッグ情報付き
+        Args:
+            coords: クリック座標
+        """
+        # 座標の微小なランダム化
+        x = coords[0] + random.randint(-2, 2)
+        y = coords[1] + random.randint(-2, 2)
+        
+        # デバッグ: クリック前の状態確認
+        self.logger.info(f"=== 中クリック開始 ===")
+        self.logger.info(f"元座標: {coords}, 実際座標: ({x}, {y})")
+        
+        # 現在のマウス位置を記録
+        current_x, current_y = pyautogui.position()
+        self.logger.info(f"クリック前マウス位置: ({current_x}, {current_y})")
+        
+        # 自然な移動
+        self.move_mouse_naturally(x, y)
+        
+        # 移動後の位置確認
+        after_x, after_y = pyautogui.position()
+        self.logger.info(f"移動後マウス位置: ({after_x}, {after_y})")
+        
+        # クリック前の微小な待機
+        time.sleep(random.uniform(0.05, 0.15))
+        
+        # 中クリック実行
+        self.logger.info(f"中クリック実行: button='middle'")
+        pyautogui.click(x, y, button='middle')
+        self.logger.info(f"中クリック送信完了")
+        
+        # 新タブ作成確認のための待機
+        time.sleep(3.0)
+        
+        # 新しいタブにフォーカス移動
+        self.focus_new_tab()
+        
+        self.logger.info(f"=== 中クリック完了 ===")
+    
+    def focus_new_tab(self):
+        """新しく開いたタブにフォーカスを移動 - 物理キー対応"""
+        self.logger.info("タブ移動開始")
+        
+        # Mac/Windows共通：物理的なControl+Tab
+        try:
+            # 方法1: Control+Tab (物理的なcontrolキー)
+            pyautogui.keyDown('ctrl')  # 物理controlキー
+            time.sleep(0.1)
+            pyautogui.keyDown('tab')   # tabキー
+            time.sleep(0.1)
+            pyautogui.keyUp('tab')
+            pyautogui.keyUp('ctrl')
+            self.logger.info("Control+Tab (物理キー) 実行")
+            
+            time.sleep(1)
+            
+            # 成功確認
+            if self._verify_new_tab():
+                self.logger.info("タブ移動成功")
+                return
+            
+            # 方法2: 失敗した場合はControl+Page Down
+            pyautogui.keyDown('ctrl')
+            time.sleep(0.1)
+            pyautogui.press('pagedown')  # 次のタブ
+            time.sleep(0.1)
+            pyautogui.keyUp('ctrl')
+            self.logger.info("Control+PageDown 実行")
+            
+            time.sleep(1)
+            
+        except Exception as e:
+            self.logger.error(f"タブ移動エラー: {e}")
+        
+        self.logger.info("タブ移動処理完了")
+    
+    def _verify_new_tab(self) -> bool:
+        """新しいタブに移動できたか確認"""
+        try:
+            cmd_key = self.get_cmd_key()
+            pyautogui.hotkey(cmd_key, 'l')
+            time.sleep(0.3)
+            pyautogui.hotkey(cmd_key, 'c')
+            time.sleep(0.3)
+            current_url = pyperclip.paste()
+            
+            # メルカリ商品ページのURLパターンをチェック
+            is_product_page = '/item/' in current_url or 'mercari.com' in current_url
+            self.logger.debug(f"URL確認: {current_url[:50]}... 商品ページ: {is_product_page}")
+            return is_product_page
+        except Exception as e:
+            self.logger.error(f"タブ確認エラー: {e}")
+            return False
+    
+    def close_current_tab(self):
+        """
+        現在のタブを閉じる（OS別対応）
+        """
+        cmd_key = self.get_cmd_key()
+        pyautogui.hotkey(cmd_key, 'w')  # Mac: command+w, Windows: ctrl+w
+        time.sleep(1)  # タブが閉じるまで待機
+        self.logger.debug(f"タブを閉じました（{cmd_key}+w）")
+    
+    def double_click(self, coords: Tuple[int, int]):
+        """ダブルクリック"""
+        x = coords[0] + random.randint(-2, 2)
+        y = coords[1] + random.randint(-2, 2)
+        
+        self.move_mouse_naturally(x, y)
+        time.sleep(random.uniform(0.05, 0.1))
+        
+        # ダブルクリック間隔をランダム化
+        interval = random.uniform(0.05, 0.15)
+        pyautogui.click(x, y)
+        time.sleep(interval)
+        pyautogui.click(x, y)
     
     def type_like_human(self, text: str, typos: bool = True):
         """

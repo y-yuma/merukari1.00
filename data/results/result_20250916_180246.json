@@ -1,0 +1,13 @@
+{
+  "file_path": "data/images/upload/test002.jpg",
+  "file_name": "test002.jpg",
+  "timestamp": "2025-09-16T18:02:46.107876",
+  "is_business": false,
+  "score": 0,
+  "details": {},
+  "reasons": [],
+  "rule_results": {},
+  "error": "分析エラー: 'ImageAnalyzer' object has no attribute '_estimate_corner_uniformity'",
+  "saved_to": "NG",
+  "final_path": "data/images/mercari_ng/test002_20250916_180246.jpg"
+}

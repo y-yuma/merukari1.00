@@ -6,6 +6,7 @@
 - 座標モジュール対応
 - 初回・通常スクロール分離対応
 - 正しい検索フロー対応
+- Command+クリック・タブ管理対応
 """
 import pyautogui
 import pyperclip
@@ -248,24 +249,48 @@ class MercariResearcher:
                 continue
                 
             try:
-                # 商品をクリック
-                self.human.move_and_click(self.coords[grid_key])
-                time.sleep(2)
+                self.logger.info(f"=== 商品{i}処理開始 ===")
+                grid_key = f'product_grid_{i}'
+                
+                if grid_key not in self.coords:
+                    self.logger.warning(f"座標未設定: {grid_key}")
+                    continue
+                
+                coords = self.coords[grid_key]
+                self.logger.info(f"商品{i}座標: {coords}")
+                
+                # 商品をCommand+クリックで新タブで開く
+                self.logger.info(f"商品{i}: command_click呼び出し開始")
+                self.human.command_click(coords)
+                self.logger.info(f"商品{i}: command_click呼び出し完了")
                 
                 # 商品情報抽出
+                self.logger.info(f"商品{i}: 詳細情報抽出開始")
                 product = self.extract_product_details()
+                
                 if product:
-                    # 3日間売上カウント（必須）
-                    product['sales_3days'] = self.count_3days_sales()
+                    self.logger.info(f"商品{i}: 商品情報取得成功")
+                    # 3日間売上カウント（必須）- None対策
+                    self.logger.info(f"商品{i}: 売上カウント開始")
+                    sales_3days = self.count_3days_sales()
+                    self.logger.info(f"商品{i}: 売上カウント結果: {sales_3days}")
+                    
+                    product['sales_3days'] = sales_3days if sales_3days is not None else 0
                     product['monthly_estimate'] = product['sales_3days'] * 10
                     products.append(product)
-                    self.logger.debug(
-                        f"商品{i}: {product['title'][:30]}... "
+                    
+                    self.logger.info(
+                        f"商品{i}: {product.get('title', 'タイトル不明')[:30]}... "
                         f"(3日売上: {product['sales_3days']})"
                     )
+                else:
+                    self.logger.warning(f"商品{i}: 商品情報取得失敗")
                 
-                # 一覧に戻る
-                self.go_back_to_list()
+                # タブを閉じて一覧に戻る
+                self.logger.info(f"商品{i}: タブクローズ開始")
+                self.human.close_current_tab()
+                self.logger.info(f"商品{i}: タブクローズ完了")
+                
                 items_processed += 1
                 
                 # 人間らしい休憩
@@ -275,10 +300,19 @@ class MercariResearcher:
                 # 10個処理後、初回スクロールを実行
                 if items_processed == 10:
                     self.perform_scroll(is_first_scroll=True)
+                
+                self.logger.info(f"=== 商品{i}処理完了 ===")
                     
             except Exception as e:
                 self.logger.error(f"商品{i}の処理エラー: {e}")
-                self.go_back_to_list()
+                self.logger.error(f"エラー詳細: {type(e).__name__}: {str(e)}")
+                import traceback
+                self.logger.error(f"スタックトレース: {traceback.format_exc()}")
+                # エラー時もタブを閉じる
+                try:
+                    self.human.close_current_tab()
+                except:
+                    pass
                 continue
         
         return products
@@ -333,6 +367,9 @@ class MercariResearcher:
                 'sales_3days': 0  # 後で更新
             }
             
+            # OS別コマンドキー取得
+            cmd_key = self.human.get_cmd_key()
+            
             # タイトル取得
             if 'product_title' in self.coords:
                 pyautogui.tripleClick(
@@ -340,9 +377,10 @@ class MercariResearcher:
                     self.coords['product_title'][1]
                 )
                 time.sleep(0.3)
-                pyautogui.hotkey('ctrl', 'c')
+                pyautogui.hotkey(cmd_key, 'c')  # OS別対応
                 time.sleep(0.3)
                 product['title'] = pyperclip.paste().strip()
+                self.logger.info(f"タイトル取得: {product['title'][:50]}...")
             
             # 価格取得
             if 'product_price' in self.coords:
@@ -351,7 +389,7 @@ class MercariResearcher:
                     self.coords['product_price'][1]
                 )
                 time.sleep(0.3)
-                pyautogui.hotkey('ctrl', 'c')
+                pyautogui.hotkey(cmd_key, 'c')  # OS別対応
                 time.sleep(0.3)
                 price_text = pyperclip.paste()
                 
@@ -361,12 +399,13 @@ class MercariResearcher:
                     product['price'] = int(price_match.group())
                 else:
                     product['price'] = 0
+                
+                self.logger.info(f"価格取得: {product['price']}円")
             
             # URL取得
-            cmd_key = self.human.get_cmd_key()
-            pyautogui.hotkey(cmd_key, 'l')
+            pyautogui.hotkey(cmd_key, 'l')  # OS別対応
             time.sleep(0.3)
-            pyautogui.hotkey(cmd_key, 'c')
+            pyautogui.hotkey(cmd_key, 'c')  # OS別対応
             time.sleep(0.3)
             product['url'] = pyperclip.paste()
             
@@ -478,45 +517,43 @@ class MercariResearcher:
 
     def capture_product_image(self) -> str:
         """
-        商品画像をキャプチャ（商品画像表示エリア用）
+        商品画像をクリックして拡大表示し、その画像をキャプチャ
         Returns:
-            保存した画像のパス
+            保存した拡大画像のパス
         """
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        filepath = Path(f'data/images/mercari/{timestamp}.png')
+        filepath = Path(f'data/images/mercari/{timestamp}_expanded.png')
         filepath.parent.mkdir(parents=True, exist_ok=True)
         
         try:
-            # 商品画像表示エリアをキャプチャ
-            if 'product_image_area' in self.coords:
-                area = self.coords['product_image_area']
-                if isinstance(area, dict) and 'top_left' in area:
-                    region = (
-                        area['top_left'][0],
-                        area['top_left'][1],
-                        area['width'],
-                        area['height']
-                    )
-                else:
-                    # デフォルトサイズ
-                    region = (300, 300, 600, 600)
+            # メイン画像をクリックして拡大表示
+            if 'product_image_main' in self.coords:
+                self.logger.info("商品画像をクリックして拡大表示")
+                self.human.move_and_click(self.coords['product_image_main'])
+                time.sleep(2)  # モーダル表示待機
                 
-                screenshot = pyautogui.screenshot(region=region)
+                # 拡大表示された画像をキャプチャ
+                self.logger.info("拡大画像をキャプチャ")
+                screenshot = pyautogui.screenshot()
                 screenshot.save(filepath)
-                self.logger.debug(f"画像保存: {filepath}")
-                return str(filepath)
-            elif 'product_image_main' in self.coords:
-                # メイン画像周辺をキャプチャ
-                x, y = self.coords['product_image_main']
-                region = (x - 150, y - 150, 300, 300)
                 
-                screenshot = pyautogui.screenshot(region=region)
-                screenshot.save(filepath)
-                self.logger.debug(f"画像保存: {filepath}")
+                # モーダルを閉じる（ESCキー）
+                pyautogui.press('escape')
+                time.sleep(1)  # 閉じる処理待機
+                
+                self.logger.info(f"拡大画像保存: {filepath}")
                 return str(filepath)
+            else:
+                self.logger.warning("product_image_main座標が設定されていません")
+                return ""
                 
         except Exception as e:
-            self.logger.error(f"画像キャプチャエラー: {e}")
+            self.logger.error(f"拡大画像キャプチャエラー: {e}")
+            # エラー時もモーダルを閉じる
+            try:
+                pyautogui.press('escape')
+            except:
+                pass
             return ""
 
     def extract_seller_info(self) -> Dict:
@@ -528,6 +565,9 @@ class MercariResearcher:
         seller_info = {}
         
         try:
+            # OS別コマンドキー取得
+            cmd_key = self.human.get_cmd_key()
+            
             # 販売者名
             if 'seller_name' in self.coords:
                 pyautogui.click(
@@ -535,7 +575,7 @@ class MercariResearcher:
                     self.coords['seller_name'][1]
                 )
                 time.sleep(0.3)
-                pyautogui.hotkey('ctrl', 'c')
+                pyautogui.hotkey(cmd_key, 'c')  # OS別対応
                 time.sleep(0.3)
                 seller_info['name'] = pyperclip.paste().strip()
             
@@ -566,8 +606,9 @@ class MercariResearcher:
         return seller_info
 
     def go_back_to_list(self):
-        """商品一覧に戻る（タブ方式では不要）"""
-        # 新タブ方式ではタブを閉じるだけなので、この関数は使用しない
+        """商品一覧に戻る（タブ管理方式では使用しない）"""
+        # 新タブ方式ではclose_current_tab()を使用するため、この関数は使用しない
+        self.logger.warning("go_back_to_list()は非推奨です。close_current_tab()を使用してください")
         pass
 
     def go_to_next_page(self) -> bool:

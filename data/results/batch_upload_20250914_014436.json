@@ -1,0 +1,106 @@
+{
+  "source_folder": "data/images/upload",
+  "timestamp": "20250914_014436",
+  "total_images": 3,
+  "ok_count": 0,
+  "ng_count": 3,
+  "error_count": 0,
+  "results": [
+    {
+      "file_path": "data/images/upload/mouse_test.jpg",
+      "file_name": "mouse_test.jpg",
+      "timestamp": "2025-09-14T01:44:36.495511",
+      "is_business": false,
+      "score": 60,
+      "details": {
+        "商品実物チェック": {
+          "score": 10,
+          "max_score": 40,
+          "reason": "判定困難（低品質画像）"
+        },
+        "撮影品質チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "統一された背景・プロ照明"
+        },
+        "販売努力チェック": {
+          "score": 20,
+          "max_score": 30,
+          "reason": "良好な撮影品質"
+        }
+      },
+      "reasons": [
+        "商品実物チェック: 判定困難（低品質画像） (10/40点)",
+        "撮影品質チェック: 統一された背景・プロ照明 (30/30点)",
+        "販売努力チェック: 良好な撮影品質 (20/30点)"
+      ],
+      "error": null,
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/mouse_test_20250914_014436.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test002.jpg",
+      "file_name": "test002.jpg",
+      "timestamp": "2025-09-14T01:44:36.787239",
+      "is_business": false,
+      "score": 60,
+      "details": {
+        "商品実物チェック": {
+          "score": 10,
+          "max_score": 40,
+          "reason": "判定困難（低品質画像）"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 30,
+          "reason": "整った背景"
+        },
+        "販売努力チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "高品質・情報量多い（プロ撮影）"
+        }
+      },
+      "reasons": [
+        "商品実物チェック: 判定困難（低品質画像） (10/40点)",
+        "撮影品質チェック: 整った背景 (20/30点)",
+        "販売努力チェック: 高品質・情報量多い（プロ撮影） (30/30点)"
+      ],
+      "error": null,
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/test002_20250914_014436.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test001.jpg",
+      "file_name": "test001.jpg",
+      "timestamp": "2025-09-14T01:44:36.873731",
+      "is_business": false,
+      "score": 40,
+      "details": {
+        "商品実物チェック": {
+          "score": 10,
+          "max_score": 40,
+          "reason": "判定困難（低品質画像）"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 30,
+          "reason": "整った背景"
+        },
+        "販売努力チェック": {
+          "score": 10,
+          "max_score": 30,
+          "reason": "標準的な撮影"
+        }
+      },
+      "reasons": [
+        "商品実物チェック: 判定困難（低品質画像） (10/40点)",
+        "撮影品質チェック: 整った背景 (20/30点)",
+        "販売努力チェック: 標準的な撮影 (10/30点)"
+      ],
+      "error": null,
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/test001_20250914_014436.jpg"
+    }
+  ]
+}

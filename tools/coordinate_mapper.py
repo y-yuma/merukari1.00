@@ -1,6 +1,6 @@
 """
 座標測定ツール - 完全なメルカリ操作工程対応版
-Version 3.0 - 売り切れ商品リサーチ対応 + スクロール設定機能追加
+Version 3.1 - アリババ新フロー対応追加
 """
 import pyautogui
 import json
@@ -14,7 +14,7 @@ import sys
 class CoordinateMapper:
     """
     座標マッピングツール
-    メルカリの売り切れ商品リサーチに特化した座標管理
+    メルカリの売り切れ商品リサーチ + アリババ新フロー対応
     """
     def __init__(self):
         """初期化処理"""
@@ -42,7 +42,7 @@ class CoordinateMapper:
             elif choice == "1":
                 self.map_mercari_coordinates_complete()
             elif choice == "2":
-                self.map_alibaba_coordinates()
+                self.map_alibaba_coordinates_new_flow()
             elif choice == "3":
                 self.map_spreadsheet_coordinates()
             elif choice == "4":
@@ -55,6 +55,163 @@ class CoordinateMapper:
                 self.test_coordinates()
             else:
                 print("無効な選択です")
+
+    def map_alibaba_coordinates_new_flow(self):
+        """アリババ用座標マッピング（新フロー完全対応版）"""
+        self.current_module = "alibaba"
+        print("\n" + "=" * 80)
+        print("アリババ（1688.com）モジュール座標設定 - 新フロー対応")
+        print("=" * 80)
+        print("\n1688.comを開いて準備してください")
+        print("注意：画像検索から商品処理まで全工程の座標を設定します")
+        input("準備ができたらEnterキーを押してください...")
+        
+        alibaba_coords = {}
+        
+        # === Phase 1: 画像検索開始 ===
+        print("\n【Phase 1: 画像検索開始】")
+        alibaba_coords['camera_icon'] = self.get_coordinate(
+            'camera_icon',
+            '1. カメラマークボタン'
+        )
+        
+        print("\n手動操作: カメラマークをクリックしてファイル選択ダイアログを開いてください")
+        input("ファイル選択ダイアログが開いたらEnterを押してください...")
+        
+        # === Phase 2: ファイルダイアログ操作 ===
+        print("\n【Phase 2: ファイルダイアログ操作】")
+        alibaba_coords['folder_pictures'] = self.get_coordinate(
+            'folder_pictures',
+            '2. ピクチャフォルダ'
+        )
+        
+        print("\n手動操作: ピクチャフォルダをクリックしてください")
+        input("ピクチャフォルダが開いたらEnterを押してください...")
+        
+        alibaba_coords['folder_mercari'] = self.get_coordinate(
+            'folder_mercari',
+            '3. メルカリフォルダ'
+        )
+        
+        print("\n手動操作: メルカリフォルダをクリックしてください")
+        input("メルカリフォルダが選択されたらEnterを押してください...")
+        
+        # 重要: 開くボタン（メルカリフォルダ用）の座標設定
+        alibaba_coords['open_button_mercari'] = self.get_coordinate(
+            'open_button_mercari',
+            '4. 開くボタン（メルカリフォルダ用）'
+        )
+        
+        print("\n手動操作: 開くボタンをクリックしてメルカリフォルダを開いてください")
+        input("メルカリフォルダが開いたらEnterを押してください...")
+        
+        alibaba_coords['sort_button'] = self.get_coordinate(
+            'sort_button',
+            '5. ソートボタン（最新順にするため）'
+        )
+        
+        print("\n手動操作: ソートボタンを1回クリックしてください（古い順になる）")
+        input("古い順になったらEnterを押してください...")
+        
+        print("手動操作: もう一度ソートボタンをクリックしてください（最新順になる）")
+        input("最新順になったらEnterを押してください...")
+        
+        alibaba_coords['file_select_area'] = self.get_coordinate(
+            'file_select_area',
+            '6. ファイル選択エリア（最新の画像ファイルをクリックする位置）'
+        )
+        
+        print("\n手動操作: 最新の画像ファイルをクリックして選択してください")
+        input("画像ファイルが選択されたらEnterを押してください...")
+        
+        alibaba_coords['open_button'] = self.get_coordinate(
+            'open_button',
+            '7. 開くボタン（ファイル選択用）'
+        )
+        
+        print("\n手動操作: 開くボタンをクリックしてください")
+        input("画像がアップロードされて検索画面が表示されたらEnterを押してください...")
+        
+        # === Phase 3: 検索実行と結果表示 ===
+        print("\n【Phase 3: 検索実行と結果表示】")
+        alibaba_coords['search_execute_button'] = self.get_coordinate(
+            'search_execute_button',
+            '8. 検索ボタン（検索を実行するボタン）'
+        )
+        
+        print("\n手動操作: 検索ボタンをクリックして検索を実行してください")
+        input("検索結果が表示されたらEnterを押してください...")
+        
+        # === Phase 4: 検索結果一覧（1ページ分）===
+        print("\n【Phase 4: 検索結果一覧（1ページ分）】")
+        alibaba_coords['product_1_left'] = self.get_coordinate(
+            'product_1_left',
+            '9. 一番左の商品（1番目）'
+        )
+        
+        for i in range(2, 11):  # 2番目から10番目まで
+            alibaba_coords[f'product_{i}'] = self.get_coordinate(
+                f'product_{i}',
+                f'{8+i}. {i}番目の商品'
+            )
+        
+        print("\n手動操作: 一番左の商品をCtrl+クリック（新しいタブで開く）してください")
+        input("商品詳細ページが新しいタブで開いたらEnterを押してください...")
+        
+        # === Phase 5: 商品詳細ページでの処理 ===
+        print("\n【Phase 5: 商品詳細ページでの処理】")
+        alibaba_coords['image_zoom_area'] = self.get_coordinate(
+            'image_zoom_area',
+            '18. 右下の写真エリア（画像判定用）'
+        )
+        
+        print("\n手動操作: 右下の写真エリアにカーソルを合わせてクリックしてください")
+        input("画像が大きく表示されたらEnterを押してください...")
+        
+        alibaba_coords['large_image_area'] = self.get_coordinate(
+            'large_image_area',
+            '19. 大きくなった画像の中心（キャプチャ用）'
+        )
+        
+        alibaba_coords['price_area'] = self.get_coordinate(
+            'price_area',
+            '20. 価格表示エリア'
+        )
+        
+        alibaba_coords['moq_area'] = self.get_coordinate(
+            'moq_area',
+            '21. MOQ（最小注文数）表示エリア'
+        )
+        
+        # === Phase 6: ナビゲーション ===
+        print("\n【Phase 6: ナビゲーション】")
+        alibaba_coords['close_large_image'] = self.get_coordinate(
+            'close_large_image',
+            '22. 大きい画像を閉じるボタン（必要な場合）'
+        )
+        
+        print("\n【重量とサイズ取得（将来実装予定）】")
+        alibaba_coords['weight_area'] = self.get_coordinate(
+            'weight_area',
+            '23. 重量表示エリア（模索中）'
+        )
+        
+        alibaba_coords['size_area'] = self.get_coordinate(
+            'size_area',
+            '24. サイズ表示エリア（模索中）'
+        )
+        
+        # 保存
+        self.save_coordinates(alibaba_coords, 'alibaba')
+        print(f"\n✓ アリババ座標設定完了: {len(alibaba_coords)}項目")
+        print("\n設定された工程:")
+        print("  - 画像検索開始: 1項目")
+        print("  - ファイルダイアログ操作: 6項目")
+        print("  - 検索実行: 1項目")
+        print("  - 検索結果一覧: 10項目")
+        print("  - 商品詳細処理: 4項目")
+        print("  - 重量・サイズ: 2項目（将来実装）")
+        print("  - ナビゲーション: 1項目")
 
     def map_mercari_coordinates_complete(self):
         """メルカリ用座標マッピング（完全版）- 売り切れ商品リサーチ対応"""
@@ -202,7 +359,8 @@ class CoordinateMapper:
         
         # === Phase 7: 商品詳細ページ ===
         print("\n【Phase 7: 商品詳細ページ】")
-        print("手動操作: 商品をCtrl+クリックで新タブで開いてください")
+        print("自動操作確認: システムが商品をCommand+クリック（Mac）/Ctrl+クリック（Win）で新タブ開きます")
+        print("手動操作: 商品を1つCommand+クリック（Mac）/Ctrl+クリック（Win）で新タブで開いてください")
         input("商品詳細ページが新タブで開いたらEnterを押してください...")
         
         mercari_coords['product_image_main'] = self.get_coordinate(
@@ -220,7 +378,8 @@ class CoordinateMapper:
         
         # === Phase 8: ナビゲーション ===
         print("\n【Phase 8: ナビゲーション】")
-        print("手動操作: タブを閉じて商品一覧に戻ってください")
+        print("自動操作確認: システムがCommand+W（Mac）/Ctrl+W（Win）でタブを閉じます")
+        print("手動操作: Command+W（Mac）/Ctrl+W（Win）でタブを閉じて商品一覧に戻ってください")
         input("商品一覧に戻ったらEnterを押してください...")
         
         mercari_coords['next_page'] = self.get_coordinate(
@@ -231,14 +390,6 @@ class CoordinateMapper:
         # 保存
         self.save_coordinates(mercari_coords, 'mercari')
         print(f"\n✓ メルカリ座標設定完了: {len(mercari_coords)}項目")
-        print("設定された工程:")
-        print("  - 基本ナビゲーション: 3項目")
-        print("  - カテゴリー選択: 4項目") 
-        print("  - フィルター設定: 7項目")
-        print("  - 商品グリッド: 21項目")
-        print("  - 商品詳細: 3項目")
-        print("  - ナビゲーション: 1項目")
-        print("  - スクロール設定: 1項目")
 
     def test_scroll_settings(self) -> Dict:
         """
@@ -339,169 +490,7 @@ class CoordinateMapper:
         print(f"  初回スクロール: {first_scroll}px × {first_count}回")
         print(f"  通常スクロール: {regular_scroll}px × {regular_count}回")
         
-    def get_area_coordinates(self, name: str, description: str = "") -> Optional[Dict]:
-        """
-        エリア座標の取得（左上と右下の2点で範囲指定）
-        Args:
-            name: 座標の名前
-            description: 座標の説明
-        Returns:
-            エリア座標の辞書またはNone
-        """
-        print(f"\n{'=' * 60}")
-        print(f"エリア設定: {name}")
-        if description:
-            print(f"説明: {description}")
-        print("-" * 60)
-        print("操作方法:")
-        print("  1. まず左上角にマウスを移動してEnterを押す")
-        print("  2. 次に右下角にマウスを移動してEnterを押す")
-        print("  3. スキップする場合は 's' + Enter")
-        
-        user_input = input("\n左上角の設定を開始しますか？ (Enter/s): ").lower().strip()
-        
-        if user_input == 's':
-            print(f"✗ {name} をスキップしました")
-            return None
-        
-        print("\n【左上の座標を設定】")
-        top_left = self.get_coordinate(f"{name}_左上", "エリアの左上角")
-        if not top_left:
-            return None
-            
-        print("\n【右下の座標を設定】")
-        bottom_right = self.get_coordinate(f"{name}_右下", "エリアの右下角")
-        if not bottom_right:
-            return None
-            
-        return {
-            "top_left": top_left,
-            "bottom_right": bottom_right,
-            "width": bottom_right[0] - top_left[0],
-            "height": bottom_right[1] - top_left[1]
-        }
-
-    def get_coordinate(self, name: str, description: str = "") -> Optional[Tuple[int, int]]:
-        """
-        単一座標の取得
-        Args:
-            name: 座標の名前
-            description: 座標の説明
-        Returns:
-            座標のタプル (x, y) またはNone
-        """
-        print(f"\n{'=' * 60}")
-        print(f"設定項目: {name}")
-        if description:
-            print(f"説明: {description}")
-        print("-" * 60)
-        print("操作方法:")
-        print("  1. マウスを目的の位置に移動")
-        print("  2. Enterキーを押して確定")
-        print("  3. スキップする場合は 's' + Enter")
-        print("  4. 3秒間のカウントダウン後に位置を取得する場合は 't' + Enter")
-        
-        user_input = input("\n入力: ").lower().strip()
-        
-        if user_input == 's':
-            print(f"✗ {name} をスキップしました")
-            return None
-        elif user_input == 't':
-            print("\n3秒後に座標を取得します...")
-            for i in range(3, 0, -1):
-                print(f"{i}...")
-                time.sleep(1)
-            x, y = pyautogui.position()
-            print(f"✓ {name}: ({x}, {y}) を記録しました")
-            time.sleep(0.3)
-            return (x, y)
-        else:
-            x, y = pyautogui.position()
-            print(f"✓ {name}: ({x}, {y}) を記録しました")
-            time.sleep(0.3)
-            return (x, y)
-
-    def print_header(self):
-        """ヘッダー表示"""
-        print("=" * 80)
-        print("    座標測定ツール v3.0 - 売り切れ商品リサーチ対応")
-        print("=" * 80)
-        print("\n【使い方】")
-        print("1. メルカリの売り切れ商品リサーチに特化した座標設定")
-        print("2. 商品グリッド1-20個、スクロール処理、画像判別に対応")
-        print("3. 各フェーズごとに手動操作の指示に従ってください")
-        print("\n【注意事項】")
-        print("- ウィンドウサイズを固定してください")
-        print("- 売り切れ商品のみを対象とした操作フローです")
-
-    def show_menu(self):
-        """メニュー表示"""
-        print("\n" + "-" * 60)
-        print("設定メニュー:")
-        print("-" * 60)
-        print("1. メルカリ座標設定（完全版）")
-        print("2. アリババ座標設定")
-        print("3. スプレッドシート座標設定")
-        print("4. 出品座標設定")
-        print("5. 全モジュール設定")
-        print("6. 設定確認")
-        print("7. 座標テスト")
-        print("0. 終了")
-        print("-" * 60)
-        return input("選択してください (0-7): ")
-
-    def map_alibaba_coordinates(self):
-        """アリババ用座標マッピング（基本版）"""
-        self.current_module = "alibaba"
-        print("\n" + "=" * 80)
-        print("アリババ（1688.com）モジュール座標設定")
-        print("=" * 80)
-        print("\n1688.comを開いて準備してください")
-        input("準備ができたらEnterキーを押してください...")
-        
-        alibaba_coords = {}
-        
-        # 画像検索機能
-        print("\n【画像検索機能】")
-        alibaba_coords['image_search_button'] = self.get_coordinate(
-            'image_search_button',
-            'カメラアイコン（画像検索開始）'
-        )
-        alibaba_coords['file_upload_button'] = self.get_coordinate(
-            'file_upload_button',
-            'ローカルファイル選択ボタン'
-        )
-        
-        # 検索結果一覧
-        print("\n【検索結果一覧】")
-        for i in range(1, 4):  # 上位3件のみ
-            alibaba_coords[f'search_result_{i}'] = self.get_coordinate(
-                f'search_result_{i}',
-                f'検索結果{i}番目の商品'
-            )
-        
-        # 商品詳細ページ
-        print("\n【商品詳細ページ】")
-        alibaba_coords['product_title'] = self.get_coordinate(
-            'product_title',
-            '商品タイトル'
-        )
-        alibaba_coords['price_element'] = self.get_coordinate(
-            'price_element',
-            '価格表示エリア'
-        )
-        alibaba_coords['moq_element'] = self.get_coordinate(
-            'moq_element',
-            'MOQ（最小注文数）表示'
-        )
-        alibaba_coords['weight_element'] = self.get_coordinate(
-            'weight_element',
-            '商品重量表示'
-        )
-        
-        # 保存
-        self.save_coordinates(alibaba_coords, 'alibaba')
-        print(f"\n✓ アリババ座標設定完了: {len(alibaba_coords)}項目")
+        return scroll_settings
 
     def map_spreadsheet_coordinates(self):
         """スプレッドシート用座標マッピング（基本版）"""
@@ -599,7 +588,7 @@ class CoordinateMapper:
         print("\n次のモジュールに進みます...")
         time.sleep(2)
         
-        self.map_alibaba_coordinates()
+        self.map_alibaba_coordinates_new_flow()
         print("\n次のモジュールに進みます...")
         time.sleep(2)
         
@@ -613,13 +602,77 @@ class CoordinateMapper:
         print("✓ 全モジュールの設定が完了しました")
         self.print_summary()
 
-    def save_coordinates(self, coords: Dict, module_name: str):
+    def get_coordinate(self, name: str, description: str = "") -> Optional[Tuple[int, int]]:
         """
-        座標を保存
+        単一座標の取得
         Args:
-            coords: 座標辞書
-            module_name: モジュール名
+            name: 座標の名前
+            description: 座標の説明
+        Returns:
+            座標のタプル (x, y) またはNone
         """
+        print(f"\n{'=' * 60}")
+        print(f"設定項目: {name}")
+        if description:
+            print(f"説明: {description}")
+        print("-" * 60)
+        print("操作方法:")
+        print("  1. マウスを目的の位置に移動")
+        print("  2. Enterキーを押して確定")
+        print("  3. スキップする場合は 's' + Enter")
+        print("  4. 3秒間のカウントダウン後に位置を取得する場合は 't' + Enter")
+        
+        user_input = input("\n入力: ").lower().strip()
+        
+        if user_input == 's':
+            print(f"✗ {name} をスキップしました")
+            return None
+        elif user_input == 't':
+            print("\n3秒後に座標を取得します...")
+            for i in range(3, 0, -1):
+                print(f"{i}...")
+                time.sleep(1)
+            x, y = pyautogui.position()
+            print(f"✓ {name}: ({x}, {y}) を記録しました")
+            time.sleep(0.3)
+            return (x, y)
+        else:
+            x, y = pyautogui.position()
+            print(f"✓ {name}: ({x}, {y}) を記録しました")
+            time.sleep(0.3)
+            return (x, y)
+
+    def print_header(self):
+        """ヘッダー表示"""
+        print("=" * 80)
+        print("    座標測定ツール v3.1 - アリババ新フロー対応")
+        print("=" * 80)
+        print("\n【機能】")
+        print("1. メルカリ売り切れ商品リサーチ対応")
+        print("2. アリババ新フロー（カメラマーク→ファイル選択→商品処理）対応")
+        print("3. 各フェーズごとに手動操作の指示に従ってください")
+        print("\n【注意事項】")
+        print("- ウィンドウサイズを固定してください")
+        print("- 各フローの手動操作指示に従ってください")
+
+    def show_menu(self):
+        """メニュー表示"""
+        print("\n" + "-" * 60)
+        print("設定メニュー:")
+        print("-" * 60)
+        print("1. メルカリ座標設定（完全版）")
+        print("2. アリババ座標設定（新フロー）")
+        print("3. スプレッドシート座標設定")
+        print("4. 出品座標設定")
+        print("5. 全モジュール設定")
+        print("6. 設定確認")
+        print("7. 座標テスト")
+        print("0. 終了")
+        print("-" * 60)
+        return input("選択してください (0-7): ")
+
+    def save_coordinates(self, coords: Dict, module_name: str):
+        """座標を保存"""
         # None値を除外
         coords = {k: v for k, v in coords.items() if v is not None}
         
@@ -639,7 +692,8 @@ class CoordinateMapper:
             'module': module_name,
             'updated_at': datetime.now().isoformat(),
             'total_items': len(coords) - 1,  # metadataを除く
-            'screen_size': pyautogui.size()
+            'screen_size': pyautogui.size(),
+            'flow_version': 'new_flow_v1.0' if module_name == 'alibaba' else 'v1.0'
         }
         
         # 保存
@@ -651,13 +705,7 @@ class CoordinateMapper:
         print(f"  設定項目数: {len(coords) - 1}")
 
     def load_coordinates(self, module_name: str) -> Dict:
-        """
-        座標を読み込み
-        Args:
-            module_name: モジュール名
-        Returns:
-            座標辞書
-        """
+        """座標を読み込み"""
         filepath = self.base_path / f"{module_name}.json"
         if filepath.exists():
             with open(filepath, 'r', encoding='utf-8') as f:
@@ -665,13 +713,7 @@ class CoordinateMapper:
         return {}
 
     def verify_coordinates(self, module_name: str) -> bool:
-        """
-        座標設定の確認
-        Args:
-            module_name: モジュール名
-        Returns:
-            設定済みならTrue
-        """
+        """座標設定の確認"""
         coords = self.load_coordinates(module_name)
         if not coords or len(coords) <= 1:  # metadataのみの場合
             print(f"✗ {module_name}の座標が設定されていません")
@@ -684,6 +726,7 @@ class CoordinateMapper:
             print(f"  最終更新: {meta.get('updated_at', '不明')}")
             print(f"  設定項目数: {meta.get('total_items', len(coords) - 1)}")
             print(f"  画面サイズ: {meta.get('screen_size', '不明')}")
+            print(f"  フローバージョン: {meta.get('flow_version', '旧版')}")
         else:
             print(f"\n{module_name}の座標設定: {len(coords)}項目")
         return True
@@ -757,6 +800,17 @@ class CoordinateMapper:
                 print(f"\nテスト: {name} -> {coord}")
                 pyautogui.moveTo(coord[0], coord[1], duration=0.5)
                 time.sleep(0.5)
+            elif isinstance(coord, dict) and 'top_left' in coord:
+                # エリア座標の場合
+                print(f"\nテスト: {name} (エリア)")
+                top_left = coord['top_left']
+                bottom_right = coord['bottom_right']
+                # 四角形を描くように移動
+                pyautogui.moveTo(top_left[0], top_left[1], duration=0.3)
+                pyautogui.moveTo(bottom_right[0], top_left[1], duration=0.3)
+                pyautogui.moveTo(bottom_right[0], bottom_right[1], duration=0.3)
+                pyautogui.moveTo(top_left[0], bottom_right[1], duration=0.3)
+                pyautogui.moveTo(top_left[0], top_left[1], duration=0.3)
         
         print(f"\n✓ {module_name}のテスト完了")
 
@@ -774,7 +828,8 @@ class CoordinateMapper:
             if coords and '_metadata' in coords:
                 items = coords['_metadata'].get('total_items', 0)
                 total_items += items
-                print(f"{module:15}: {items:3}項目")
+                flow_ver = coords['_metadata'].get('flow_version', '旧版')
+                print(f"{module:15}: {items:3}項目 ({flow_ver})")
             else:
                 print(f"{module:15}: 未設定")
         
