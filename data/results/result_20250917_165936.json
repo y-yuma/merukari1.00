@@ -1,0 +1,13 @@
+{
+  "file_path": "data/images/upload/test11.jpg",
+  "file_name": "test11.jpg",
+  "timestamp": "2025-09-17T16:59:36.851434",
+  "is_business": false,
+  "score": 0,
+  "details": {},
+  "reasons": [],
+  "rule_results": {},
+  "error": "分析エラー: 'ImageAnalyzer' object has no attribute '_detect_uniform_lighting'",
+  "saved_to": "NG",
+  "final_path": "data/images/mercari_ng/test11_20250917_165936.jpg"
+}

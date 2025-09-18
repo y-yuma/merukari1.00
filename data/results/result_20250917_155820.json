@@ -1,0 +1,44 @@
+{
+  "file_path": "data/images/upload/test08.jpg",
+  "file_name": "test08.jpg",
+  "timestamp": "2025-09-17T15:58:19.630585",
+  "is_business": false,
+  "score": 10,
+  "details": {
+    "背景判定": {
+      "score": 0,
+      "max_score": 30,
+      "reason": "個人撮影背景: 周期テクスチャ: 100.0%, 不均一照明: 95.5%"
+    },
+    "プロ撮影判定": {
+      "score": 20,
+      "max_score": 30,
+      "reason": "ドロップシャドウ, 均一照明"
+    },
+    "商品実物チェック": {
+      "score": 0,
+      "max_score": 30,
+      "reason": "総合判定"
+    },
+    "撮影品質チェック": {
+      "score": 0,
+      "max_score": 20,
+      "reason": "ROI判定優先"
+    },
+    "販売努力チェック": {
+      "score": 0,
+      "max_score": 0,
+      "reason": "新方式のため省略"
+    }
+  },
+  "reasons": [
+    "個人撮影背景検出 (確信度: 100.0%): 周期テクスチャ: 100.0%, 不均一照明: 95.5%",
+    "パッケージ特徴 (確信度: 50.5%): 矩形構造: 50.5%",
+    "ブリスターパック検出 (確信度: 100.0%): 吊り下げ穴, プラ反射: 100.0%",
+    "プロ撮影特徴 (確信度: 67.5%): ドロップシャドウ, 均一照明"
+  ],
+  "rule_results": {},
+  "error": null,
+  "saved_to": "NG",
+  "final_path": "data/images/mercari_ng/test08_20250917_155820.jpg"
+}

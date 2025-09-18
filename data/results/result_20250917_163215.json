@@ -1,0 +1,31 @@
+{
+  "file_path": "data/images/upload/test001.jpg",
+  "file_name": "test001.jpg",
+  "timestamp": "2025-09-17T16:32:15.412864",
+  "is_business": false,
+  "score": 25,
+  "details": {
+    "商品実物チェック": {
+      "score": 5,
+      "max_score": 30,
+      "reason": "総合判定"
+    },
+    "撮影品質チェック": {
+      "score": 0,
+      "max_score": 20,
+      "reason": "ROI判定優先"
+    },
+    "販売努力チェック": {
+      "score": 0,
+      "max_score": 0,
+      "reason": "新方式のため省略"
+    }
+  },
+  "reasons": [
+    "ブリスターパック検出 (確信度: 100.0%): 吊り下げ穴, プラ反射: 48.1%"
+  ],
+  "rule_results": {},
+  "error": null,
+  "saved_to": "NG",
+  "final_path": "data/images/mercari_ng/test001_20250917_163215.jpg"
+}

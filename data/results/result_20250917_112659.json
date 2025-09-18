@@ -1,0 +1,23 @@
+{
+  "file_path": "data/images/upload/test04.jpg",
+  "file_name": "test04.jpg",
+  "timestamp": "2025-09-17T11:26:59.834389",
+  "is_business": false,
+  "score": 7,
+  "details": {
+    "パッケージ判定": {
+      "score": 0,
+      "max_score": 100,
+      "reason": "矩形構造: 71.33%, グラフィック要素: 100.00%, 平面的: 61.49%",
+      "is_package": true,
+      "confidence": 0.7760700854127413
+    }
+  },
+  "reasons": [
+    "パッケージ画像検出 (確信度: 77.6%) - 矩形構造: 71.33%, グラフィック要素: 100.00%, 平面的: 61.49%"
+  ],
+  "rule_results": {},
+  "error": null,
+  "saved_to": "NG",
+  "final_path": "data/images/mercari_ng/test04_20250917_112659.jpg"
+}

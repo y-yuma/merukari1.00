@@ -1,66 +1,75 @@
 {
   "system": {
-    "version": "1.1.0",
+    "version": "3.0.0",
     "author": "メルカリ自動化チーム",
-    "description": "メルカリ画像判定システム設定"
+    "description": "メルカリ画像判定システム設定（ROI抽出・テクスチャ検出対応版）"
   },
   "image_analysis": {
-    "business_threshold": 70,
+    "business_threshold": 50,
     "max_image_size": 1280,
 
-    "algorithms": {
-      "actual_product_weight": 40,
-      "photo_quality_weight": 30,
-      "sales_effort_weight": 30
+    "personal_background": {
+      "enabled": true,
+      "wood_texture_threshold": 0.3,
+      "periodic_texture_threshold": 0.3,
+      "cluttered_threshold": 0.4,
+      "uneven_lighting_threshold": 0.3,
+      "detection_confidence_threshold": 0.6,
+      "score_cap_when_detected": 30
     },
 
-    "quality_thresholds": {
-      "edge_density_high": 0.10,
-      "edge_density_medium": 0.08,
-      "text_density_high": 0.30,
-      "text_density_low": 0.20,
-
-      "background_uniformity_excellent": 30,
-      "background_uniformity_good": 50,
-      "background_uniformity_fair": 70,
-      "brightness_std_excellent": 50,
-
-      "entropy_excellent": 7.0,
-      "entropy_good": 6.5,
-      "entropy_fair": 6.0,
-      "contrast_excellent": 50,
-      "contrast_good": 40,
-      "contrast_fair": 30,
-      "sharpness_excellent": 100
+    "roi_extraction": {
+      "enabled": true,
+      "min_area_ratio": 0.1,
+      "target_area_ratio": 0.25,
+      "min_rectangularity": 0.8,
+      "package_face_threshold": 0.6,
+      "strong_package_threshold": 0.7,
+      "score_cap_when_detected": 49
     },
 
-    "rules": {
-      "enabled": ["package_only", "bag_or_shrinkwrap", "vendor_composite_bonus"],
+    "package_face_analysis": {
+      "text_density_threshold": 0.2,
+      "icon_row_threshold": 0.3,
+      "barcode_threshold": 0.5,
+      "multicolor_print_threshold": 0.4,
+      "flatness_threshold": 0.6,
+      "min_features_for_detection": 3
+    },
 
-      "package_only": {
-        "enabled": true,
-        "hard_ng": true,
-        "large_rect_ratio": 0.30,
-        "rect_sides_similarity": 0.20,
-        "text_density_min": 0.18,
-        "bg_uniformity_max": 45
-      },
+    "blister_pack": {
+      "enabled": true,
+      "hang_hole_threshold": 0.5,
+      "plastic_reflection_threshold": 0.3,
+      "two_layer_threshold": 0.4,
+      "detection_confidence_threshold": 0.5,
+      "penalty_when_detected": 30,
+      "score_cap_when_detected": 40
+    },
 
-      "bag_or_shrinkwrap": {
-        "enabled": true,
-        "hard_ng": true,
-        "bright_pixel_ratio": 0.06,
-        "specular_spots_min": 40,
-        "hf_edge_density_min": 0.11
-      },
+    "professional_features": {
+      "enabled": true,
+      "clean_background_threshold": 0.7,
+      "center_placement_threshold": 0.6,
+      "drop_shadow_threshold": 0.5,
+      "uniform_lighting_threshold": 0.7,
+      "min_features_for_bonus": 3,
+      "max_bonus_points": 30
+    },
 
-      "vendor_composite_bonus": {
-        "enabled": true,
-        "hard_ng": false,
-        "solid_bg_uniformity_max": 28,
-        "center_occupancy_min": 0.18,
-        "bonus_points": 10
-      }
+    "global_package_features": {
+      "text_density_threshold": 0.15,
+      "rectangular_layout_threshold": 0.3,
+      "detection_confidence_threshold": 0.5,
+      "penalty_multiplier": 20
+    },
+
+    "penalties_and_bonuses": {
+      "personal_background_cap": 30,
+      "package_roi_penalty": 40,
+      "package_global_penalty": 20,
+      "blister_pack_penalty": 30,
+      "professional_bonus": 30
     }
   },
 
@@ -89,9 +98,9 @@
   },
 
   "development": {
-    "debug_mode": false,
-    "save_debug_images": false,
-    "show_processing_steps": false,
+    "debug_mode": true,
+    "save_debug_images": true,
+    "show_processing_steps": true,
     "cache_enabled": true
   },
 

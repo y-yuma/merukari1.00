@@ -1,0 +1,17 @@
+{
+  "file_path": "data/images/upload/test07.jpg",
+  "file_name": "test07.jpg",
+  "timestamp": "2025-09-17T11:04:41.625299",
+  "is_business": false,
+  "score": 0,
+  "details": {},
+  "reasons": [
+    "ハードNG: パッケージ/箱のみが強く示唆 - largest_rect_ratio=0.74 (bin=0.74/inv=0.24); rect_ratio=0.74, bg_uniformity=39.3, text_density=0.03"
+  ],
+  "rule_results": {
+    "package_only": true
+  },
+  "error": null,
+  "saved_to": "NG",
+  "final_path": "data/images/mercari_ng/test07_20250917_110441.jpg"
+}

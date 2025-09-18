@@ -1,0 +1,31 @@
+{
+  "file_path": "data/images/upload/test06.jpg",
+  "file_name": "test06.jpg",
+  "timestamp": "2025-09-17T11:28:01.346542",
+  "is_business": true,
+  "score": 64,
+  "details": {
+    "商品実物チェック": {
+      "score": 17,
+      "max_score": 30,
+      "reason": "実物商品特徴: 17/30点"
+    },
+    "撮影品質チェック": {
+      "score": 10,
+      "max_score": 20,
+      "reason": "撮影品質: 10/20点"
+    },
+    "販売努力チェック": {
+      "score": 0,
+      "max_score": 0,
+      "reason": "パッケージ判定優先のため省略"
+    }
+  },
+  "reasons": [
+    "パッケージ要素検出ペナルティ (確信度: 66.3%): -13点"
+  ],
+  "rule_results": {},
+  "error": null,
+  "saved_to": "OK",
+  "final_path": "data/images/mercari_ok/test06_20250917_112801.jpg"
+}
