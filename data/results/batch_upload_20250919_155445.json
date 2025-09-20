@@ -1,0 +1,540 @@
+{
+  "source_folder": "data/images/upload",
+  "timestamp": "20250919_155445",
+  "total_images": 14,
+  "ok_count": 9,
+  "ng_count": 5,
+  "error_count": 0,
+  "results": [
+    {
+      "file_path": "data/images/upload/test03.jpg",
+      "file_name": "test03.jpg",
+      "timestamp": "2025-09-19T15:54:43.727340",
+      "is_business": false,
+      "score": 0,
+      "details": {
+        "背景判定": {
+          "score": -28,
+          "max_score": 0,
+          "reason": "個人撮影背景ペナルティ: 木目: 89.7%, 畳/カーペット: 100.0%, 雑然背景: 100.0%"
+        },
+        "商品実物チェック": {
+          "score": 0,
+          "max_score": 30,
+          "reason": "総合判定"
+        },
+        "撮影品質チェック": {
+          "score": 0,
+          "max_score": 20,
+          "reason": "ROI判定優先"
+        },
+        "販売努力チェック": {
+          "score": 0,
+          "max_score": 0,
+          "reason": "新方式のため省略"
+        }
+      },
+      "reasons": [
+        "個人撮影背景検出 (確信度: 96.6%): 木目: 89.7%, 畳/カーペット: 100.0%, 雑然背景: 100.0%",
+        "ブリスターパック検出 (確信度: 100.0%): 吊り下げ穴, プラ反射: 55.7%"
+      ],
+      "rule_results": {},
+      "error": null,
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/test03_20250919_155444.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test07.jpg",
+      "file_name": "test07.jpg",
+      "timestamp": "2025-09-19T15:54:44.547684",
+      "is_business": false,
+      "score": 7,
+      "details": {
+        "プロ撮影判定": {
+          "score": 32,
+          "max_score": 40,
+          "reason": "色調一貫: 100.0%, プロ影: 60.0%, 多アングル: 50.0%"
+        },
+        "背景判定": {
+          "score": -30,
+          "max_score": 0,
+          "reason": "個人撮影背景ペナルティ: 畳/カーペット: 100.0%, 雑然背景: 100.0%"
+        },
+        "商品実物チェック": {
+          "score": 0,
+          "max_score": 30,
+          "reason": "総合判定"
+        },
+        "撮影品質チェック": {
+          "score": 0,
+          "max_score": 20,
+          "reason": "ROI判定優先"
+        },
+        "販売努力チェック": {
+          "score": 0,
+          "max_score": 0,
+          "reason": "新方式のため省略"
+        }
+      },
+      "reasons": [
+        "プロ撮影特徴 (確信度: 80.0%): 色調一貫: 100.0%, プロ影: 60.0%, 多アングル: 50.0%",
+        "個人撮影背景検出 (確信度: 100.0%): 畳/カーペット: 100.0%, 雑然背景: 100.0%",
+        "パッケージ特徴 (確信度: 100.0%): テキスト: 52.9%, 矩形構造: 94.3%",
+        "ブリスターパック検出 (確信度: 100.0%): 吊り下げ穴, プラ反射: 100.0%"
+      ],
+      "rule_results": {},
+      "error": null,
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/test07_20250919_155444.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test06.jpg",
+      "file_name": "test06.jpg",
+      "timestamp": "2025-09-19T15:54:44.842652",
+      "is_business": false,
+      "score": 0,
+      "details": {
+        "背景判定": {
+          "score": -29,
+          "max_score": 0,
+          "reason": "個人撮影背景ペナルティ: 木目: 96.1%, 畳/カーペット: 100.0%, 雑然背景: 99.5%"
+        },
+        "商品実物チェック": {
+          "score": 0,
+          "max_score": 30,
+          "reason": "総合判定"
+        },
+        "撮影品質チェック": {
+          "score": 0,
+          "max_score": 20,
+          "reason": "ROI判定優先"
+        },
+        "販売努力チェック": {
+          "score": 0,
+          "max_score": 0,
+          "reason": "新方式のため省略"
+        }
+      },
+      "reasons": [
+        "個人撮影背景検出 (確信度: 98.6%): 木目: 96.1%, 畳/カーペット: 100.0%, 雑然背景: 99.5%",
+        "パッケージ特徴 (確信度: 60.3%): テキスト: 22.9%, 矩形構造: 74.7%",
+        "ブリスターパック検出 (確信度: 100.0%): 吊り下げ穴, プラ反射: 100.0%"
+      ],
+      "rule_results": {},
+      "error": null,
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/test06_20250919_155445.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test12.jpg",
+      "file_name": "test12.jpg",
+      "timestamp": "2025-09-19T15:54:45.042416",
+      "is_business": true,
+      "score": 60,
+      "details": {
+        "プロ撮影判定": {
+          "score": 30,
+          "max_score": 40,
+          "reason": "クリーン背景: 100.0%, 色調一貫: 100.0%, 鮮明エッジ: 44.7%, プロ構図: 54.2%"
+        },
+        "商品実物チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "総合判定"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 20,
+          "reason": "ROI判定優先"
+        },
+        "販売努力チェック": {
+          "score": 0,
+          "max_score": 0,
+          "reason": "新方式のため省略"
+        }
+      },
+      "reasons": [
+        "プロ撮影特徴 (確信度: 77.1%): クリーン背景: 100.0%, 色調一貫: 100.0%, 鮮明エッジ: 44.7%, プロ構図: 54.2%",
+        "ブリスターパック検出 (確信度: 80.6%): プラ反射: 80.6%"
+      ],
+      "rule_results": {},
+      "error": null,
+      "saved_to": "OK",
+      "final_path": "data/images/mercari_ok/test12_20250919_155445.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test04.jpg",
+      "file_name": "test04.jpg",
+      "timestamp": "2025-09-19T15:54:45.101801",
+      "is_business": true,
+      "score": 54,
+      "details": {
+        "プロ撮影判定": {
+          "score": 40,
+          "max_score": 40,
+          "reason": "クリーン背景: 97.9%, 鮮明エッジ: 99.3%, プロ影: 90.0%, 切り抜き感: 89.8%"
+        },
+        "商品実物チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "総合判定"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 20,
+          "reason": "ROI判定優先"
+        },
+        "販売努力チェック": {
+          "score": 0,
+          "max_score": 0,
+          "reason": "新方式のため省略"
+        }
+      },
+      "reasons": [
+        "プロ撮影特徴 (確信度: 100.0%): クリーン背景: 97.9%, 鮮明エッジ: 99.3%, プロ影: 90.0%, 切り抜き感: 89.8%",
+        "パッケージ特徴 (確信度: 57.4%): テキスト: 21.7%, 矩形構造: 71.3%",
+        "ブリスターパック検出 (確信度: 100.0%): 吊り下げ穴, プラ反射: 84.4%"
+      ],
+      "rule_results": {},
+      "error": null,
+      "saved_to": "OK",
+      "final_path": "data/images/mercari_ok/test04_20250919_155445.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test10.jpg",
+      "file_name": "test10.jpg",
+      "timestamp": "2025-09-19T15:54:45.210707",
+      "is_business": true,
+      "score": 65,
+      "details": {
+        "プロ撮影判定": {
+          "score": 40,
+          "max_score": 40,
+          "reason": "クリーン背景: 100.0%, 均一照明: 71.2%, 色調一貫: 100.0%, プロ影: 60.0%, 切り抜き感: 81.9%"
+        },
+        "商品実物チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "総合判定"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 20,
+          "reason": "ROI判定優先"
+        },
+        "販売努力チェック": {
+          "score": 0,
+          "max_score": 0,
+          "reason": "新方式のため省略"
+        }
+      },
+      "reasons": [
+        "プロ撮影特徴 (確信度: 100.0%): クリーン背景: 100.0%, 均一照明: 71.2%, 色調一貫: 100.0%, プロ影: 60.0%, 切り抜き感: 81.9%",
+        "ブリスターパック検出 (確信度: 100.0%): 吊り下げ穴, プラ反射: 72.5%"
+      ],
+      "rule_results": {},
+      "error": null,
+      "saved_to": "OK",
+      "final_path": "data/images/mercari_ok/test10_20250919_155445.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test11.jpg",
+      "file_name": "test11.jpg",
+      "timestamp": "2025-09-19T15:54:45.310939",
+      "is_business": true,
+      "score": 51,
+      "details": {
+        "プロ撮影判定": {
+          "score": 40,
+          "max_score": 40,
+          "reason": "クリーン背景: 100.0%, 色調一貫: 60.0%, 鮮明エッジ: 64.5%, プロ構図: 80.0%, プロ影: 90.0%, 多アングル: 50.0%"
+        },
+        "商品実物チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "総合判定"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 20,
+          "reason": "ROI判定優先"
+        },
+        "販売努力チェック": {
+          "score": 0,
+          "max_score": 0,
+          "reason": "新方式のため省略"
+        }
+      },
+      "reasons": [
+        "プロ撮影特徴 (確信度: 100.0%): クリーン背景: 100.0%, 色調一貫: 60.0%, 鮮明エッジ: 64.5%, プロ構図: 80.0%, プロ影: 90.0%, 多アングル: 50.0%",
+        "パッケージ特徴 (確信度: 72.5%): テキスト: 39.0%, 矩形構造: 67.0%",
+        "ブリスターパック検出 (確信度: 100.0%): 吊り下げ穴, プラ反射: 100.0%"
+      ],
+      "rule_results": {},
+      "error": null,
+      "saved_to": "OK",
+      "final_path": "data/images/mercari_ok/test11_20250919_155445.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test05.jpg",
+      "file_name": "test05.jpg",
+      "timestamp": "2025-09-19T15:54:45.455507",
+      "is_business": false,
+      "score": 0,
+      "details": {
+        "背景判定": {
+          "score": -28,
+          "max_score": 0,
+          "reason": "個人撮影背景ペナルティ: 木目: 90.7%, 畳/カーペット: 100.0%, 雑然背景: 96.6%"
+        },
+        "商品実物チェック": {
+          "score": 0,
+          "max_score": 30,
+          "reason": "総合判定"
+        },
+        "撮影品質チェック": {
+          "score": 0,
+          "max_score": 20,
+          "reason": "ROI判定優先"
+        },
+        "販売努力チェック": {
+          "score": 0,
+          "max_score": 0,
+          "reason": "新方式のため省略"
+        }
+      },
+      "reasons": [
+        "個人撮影背景検出 (確信度: 95.7%): 木目: 90.7%, 畳/カーペット: 100.0%, 雑然背景: 96.6%",
+        "ブリスターパック検出 (確信度: 100.0%): 吊り下げ穴, プラ反射: 100.0%"
+      ],
+      "rule_results": {},
+      "error": null,
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/test05_20250919_155445.jpg"
+    },
+    {
+      "file_path": "data/images/upload/m70494628928_1.jpg",
+      "file_name": "m70494628928_1.jpg",
+      "timestamp": "2025-09-19T15:54:45.694795",
+      "is_business": true,
+      "score": 53,
+      "details": {
+        "プロ撮影判定": {
+          "score": 38,
+          "max_score": 40,
+          "reason": "均一照明: 79.9%, 色調一貫: 60.0%, 切り抜き感: 94.6%"
+        },
+        "商品実物チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "総合判定"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 20,
+          "reason": "ROI判定優先"
+        },
+        "販売努力チェック": {
+          "score": 0,
+          "max_score": 0,
+          "reason": "新方式のため省略"
+        }
+      },
+      "reasons": [
+        "プロ撮影特徴 (確信度: 96.0%): 均一照明: 79.9%, 色調一貫: 60.0%, 切り抜き感: 94.6%",
+        "パッケージ特徴 (確信度: 50.5%): テキスト: 21.1%, 矩形構造: 58.7%",
+        "ブリスターパック検出 (確信度: 100.0%): 吊り下げ穴, プラ反射: 100.0%"
+      ],
+      "rule_results": {},
+      "error": null,
+      "saved_to": "OK",
+      "final_path": "data/images/mercari_ok/m70494628928_1_20250919_155445.jpg"
+    },
+    {
+      "file_path": "data/images/upload/ihWbtFm2VGKjnxXGpP8se8.jpg",
+      "file_name": "ihWbtFm2VGKjnxXGpP8se8.jpg",
+      "timestamp": "2025-09-19T15:54:45.728070",
+      "is_business": true,
+      "score": 70,
+      "details": {
+        "プロ撮影判定": {
+          "score": 40,
+          "max_score": 40,
+          "reason": "クリーン背景: 100.0%, 均一照明: 70.2%, 色調一貫: 100.0%, 鮮明エッジ: 88.9%, プロ構図: 96.1%"
+        },
+        "商品実物チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "総合判定"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 20,
+          "reason": "ROI判定優先"
+        },
+        "販売努力チェック": {
+          "score": 0,
+          "max_score": 0,
+          "reason": "新方式のため省略"
+        }
+      },
+      "reasons": [
+        "プロ撮影特徴 (確信度: 100.0%): クリーン背景: 100.0%, 均一照明: 70.2%, 色調一貫: 100.0%, 鮮明エッジ: 88.9%, プロ構図: 96.1%",
+        "ブリスターパック検出 (確信度: 83.7%): プラ反射: 83.7%"
+      ],
+      "rule_results": {},
+      "error": null,
+      "saved_to": "OK",
+      "final_path": "data/images/mercari_ok/ihWbtFm2VGKjnxXGpP8se8_20250919_155445.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test002.jpg",
+      "file_name": "test002.jpg",
+      "timestamp": "2025-09-19T15:54:45.751425",
+      "is_business": false,
+      "score": 0,
+      "details": {
+        "背景判定": {
+          "score": -29,
+          "max_score": 0,
+          "reason": "個人撮影背景ペナルティ: 畳/カーペット: 100.0%, 雑然背景: 96.1%"
+        },
+        "商品実物チェック": {
+          "score": 0,
+          "max_score": 30,
+          "reason": "総合判定"
+        },
+        "撮影品質チェック": {
+          "score": 0,
+          "max_score": 20,
+          "reason": "ROI判定優先"
+        },
+        "販売努力チェック": {
+          "score": 0,
+          "max_score": 0,
+          "reason": "新方式のため省略"
+        }
+      },
+      "reasons": [
+        "個人撮影背景検出 (確信度: 98.1%): 畳/カーペット: 100.0%, 雑然背景: 96.1%",
+        "ブリスターパック検出 (確信度: 100.0%): 吊り下げ穴, プラ反射: 100.0%"
+      ],
+      "rule_results": {},
+      "error": null,
+      "saved_to": "NG",
+      "final_path": "data/images/mercari_ng/test002_20250919_155445.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test001.jpg",
+      "file_name": "test001.jpg",
+      "timestamp": "2025-09-19T15:54:45.803999",
+      "is_business": true,
+      "score": 57,
+      "details": {
+        "プロ撮影判定": {
+          "score": 32,
+          "max_score": 40,
+          "reason": "クリーン背景: 98.4%, 色調一貫: 100.0%, プロ構図: 60.0%, 切り抜き感: 58.6%"
+        },
+        "商品実物チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "総合判定"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 20,
+          "reason": "ROI判定優先"
+        },
+        "販売努力チェック": {
+          "score": 0,
+          "max_score": 0,
+          "reason": "新方式のため省略"
+        }
+      },
+      "reasons": [
+        "プロ撮影特徴 (確信度: 80.0%): クリーン背景: 98.4%, 色調一貫: 100.0%, プロ構図: 60.0%, 切り抜き感: 58.6%",
+        "ブリスターパック検出 (確信度: 100.0%): 吊り下げ穴, プラ反射: 48.1%"
+      ],
+      "rule_results": {},
+      "error": null,
+      "saved_to": "OK",
+      "final_path": "data/images/mercari_ok/test001_20250919_155445.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test08.jpg",
+      "file_name": "test08.jpg",
+      "timestamp": "2025-09-19T15:54:45.838260",
+      "is_business": true,
+      "score": 55,
+      "details": {
+        "プロ撮影判定": {
+          "score": 40,
+          "max_score": 40,
+          "reason": "クリーン背景: 100.0%, 均一照明: 77.3%, プロ影: 90.0%, 切り抜き感: 94.6%, 多アングル: 50.0%"
+        },
+        "商品実物チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "総合判定"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 20,
+          "reason": "ROI判定優先"
+        },
+        "販売努力チェック": {
+          "score": 0,
+          "max_score": 0,
+          "reason": "新方式のため省略"
+        }
+      },
+      "reasons": [
+        "プロ撮影特徴 (確信度: 100.0%): クリーン背景: 100.0%, 均一照明: 77.3%, プロ影: 90.0%, 切り抜き感: 94.6%, 多アングル: 50.0%",
+        "パッケージ特徴 (確信度: 50.5%): 矩形構造: 50.5%",
+        "ブリスターパック検出 (確信度: 100.0%): 吊り下げ穴, プラ反射: 100.0%"
+      ],
+      "rule_results": {},
+      "error": null,
+      "saved_to": "OK",
+      "final_path": "data/images/mercari_ok/test08_20250919_155445.jpg"
+    },
+    {
+      "file_path": "data/images/upload/test09.jpg",
+      "file_name": "test09.jpg",
+      "timestamp": "2025-09-19T15:54:45.888207",
+      "is_business": true,
+      "score": 65,
+      "details": {
+        "プロ撮影判定": {
+          "score": 40,
+          "max_score": 40,
+          "reason": "クリーン背景: 100.0%, 均一照明: 54.7%, 色調一貫: 100.0%, プロ構図: 75.5%, 切り抜き感: 86.1%"
+        },
+        "商品実物チェック": {
+          "score": 30,
+          "max_score": 30,
+          "reason": "総合判定"
+        },
+        "撮影品質チェック": {
+          "score": 20,
+          "max_score": 20,
+          "reason": "ROI判定優先"
+        },
+        "販売努力チェック": {
+          "score": 0,
+          "max_score": 0,
+          "reason": "新方式のため省略"
+        }
+      },
+      "reasons": [
+        "プロ撮影特徴 (確信度: 100.0%): クリーン背景: 100.0%, 均一照明: 54.7%, 色調一貫: 100.0%, プロ構図: 75.5%, 切り抜き感: 86.1%",
+        "ブリスターパック検出 (確信度: 100.0%): 吊り下げ穴, プラ反射: 59.6%"
+      ],
+      "rule_results": {},
+      "error": null,
+      "saved_to": "OK",
+      "final_path": "data/images/mercari_ok/test09_20250919_155445.jpg"
+    }
+  ]
+}

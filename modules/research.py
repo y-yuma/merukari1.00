@@ -7,6 +7,7 @@
 - 初回・通常スクロール分離対応
 - 正しい検索フロー対応
 - Command+クリック・タブ管理対応
+- 拡大画像範囲設定対応（v1.1）
 """
 import pyautogui
 import pyperclip
@@ -22,6 +23,7 @@ from core.rpa_engine import RPAEngine
 from core.human_behavior import HumanBehavior
 from utils.ocr_reader import OCRReader
 from utils.logger import setup_logger
+from utils.screenshot_helper import get_screenshot_helper
 
 class MercariResearcher:
     """
@@ -430,6 +432,9 @@ class MercariResearcher:
         """
         self.logger.debug("3日間売上カウント開始")
         
+        # スクリーンショットヘルパーを取得
+        screenshot_helper = get_screenshot_helper()
+        
         try:
             # ページ下部へスクロール
             for _ in range(3):
@@ -441,17 +446,17 @@ class MercariResearcher:
                 area = self.coords['sold_history_area']
                 # エリア座標の場合
                 if isinstance(area, dict) and 'top_left' in area:
-                    region = (
-                        area['top_left'][0],
-                        area['top_left'][1],
-                        area['width'],
-                        area['height']
-                    )
+                    left = area['top_left'][0]
+                    top = area['top_left'][1]
+                    width = area['width']
+                    height = area['height']
+                    
+                    # マルチディスプレイ対応スクリーンショット
+                    screenshot = screenshot_helper.capture_region(left, top, width, height)
                 else:
                     # 単一座標の場合はデフォルトサイズ
-                    region = (100, 400, 800, 600)
+                    screenshot = screenshot_helper.capture_region(100, 400, 800, 600)
                 
-                screenshot = pyautogui.screenshot(region=region)
                 temp_path = 'temp_sales.png'
                 screenshot.save(temp_path)
                 
@@ -517,13 +522,17 @@ class MercariResearcher:
 
     def capture_product_image(self) -> str:
         """
-        商品画像をクリックして拡大表示し、その画像をキャプチャ
+        商品画像をクリックして拡大表示し、指定範囲をキャプチャ
+        マルチディスプレイ・Retina対応版（v1.2）
         Returns:
             保存した拡大画像のパス
         """
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         filepath = Path(f'data/images/mercari/{timestamp}_expanded.png')
         filepath.parent.mkdir(parents=True, exist_ok=True)
+        
+        # スクリーンショットヘルパーを取得
+        screenshot_helper = get_screenshot_helper()
         
         try:
             # メイン画像をクリックして拡大表示
@@ -532,9 +541,27 @@ class MercariResearcher:
                 self.human.move_and_click(self.coords['product_image_main'])
                 time.sleep(2)  # モーダル表示待機
                 
-                # 拡大表示された画像をキャプチャ
-                self.logger.info("拡大画像をキャプチャ")
-                screenshot = pyautogui.screenshot()
+                # 座標設定から拡大画像エリアを取得
+                if 'expanded_image_area' in self.coords:
+                    # 設定済みの範囲を使用
+                    area = self.coords['expanded_image_area']
+                    left = area['top_left'][0]
+                    top = area['top_left'][1]
+                    capture_width = area['width']
+                    capture_height = area['height']
+                    
+                    self.logger.info(f"設定済み範囲を使用: ({left}, {top}, {capture_width}, {capture_height})")
+                    
+                    # マルチディスプレイ対応スクリーンショット
+                    screenshot = screenshot_helper.capture_region(left, top, capture_width, capture_height)
+                else:
+                    # フォールバック：全画面キャプチャ（従来の動作）
+                    self.logger.warning("拡大画像エリアが未設定のため、全画面キャプチャを使用")
+                    self.logger.info("座標設定を推奨: python tools/coordinate_mapper.py でメニュー8を選択")
+                    
+                    screenshot = pyautogui.screenshot()
+                
+                # 画像保存
                 screenshot.save(filepath)
                 
                 # モーダルを閉じる（ESCキー）
@@ -564,6 +591,9 @@ class MercariResearcher:
         """
         seller_info = {}
         
+        # スクリーンショットヘルパーを取得
+        screenshot_helper = get_screenshot_helper()
+        
         try:
             # OS別コマンドキー取得
             cmd_key = self.human.get_cmd_key()
@@ -582,15 +612,16 @@ class MercariResearcher:
             # 評価
             if 'seller_rating' in self.coords:
                 # OCRで評価を読み取る
-                region = (
-                    self.coords['seller_rating'][0] - 50,
-                    self.coords['seller_rating'][1] - 20,
-                    100,
-                    40
-                )
-                screenshot = pyautogui.screenshot(region=region)
+                left = self.coords['seller_rating'][0] - 50
+                top = self.coords['seller_rating'][1] - 20
+                width = 100
+                height = 40
+                
+                # マルチディスプレイ対応スクリーンショット
+                screenshot = screenshot_helper.capture_region(left, top, width, height)
                 temp_path = 'temp_rating.png'
                 screenshot.save(temp_path)
+                
                 rating_text = self.ocr.extract_text(temp_path)
                 seller_info['rating'] = rating_text
                 

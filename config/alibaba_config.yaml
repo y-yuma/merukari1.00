@@ -1,0 +1,144 @@
+# アリババ画像判別ツール設定ファイル
+
+# サムネイル収集設定
+thumbnail_grabber:
+  # グリッドスキャン設定
+  grid_step: 80  # グリッドの間隔（ピクセル）
+  
+  # ホバー待機時間
+  hover_wait_min: 1.0  # 最小待機時間（秒）
+  hover_wait_max: 1.2  # 最大待機時間（秒）
+  
+  # 差分安定化
+  diff_stable_timeout: 1.5  # 差分安定化タイムアウト（秒）
+  diff_stable_frames: 2  # 安定判定に必要なフレーム数
+  
+  # 拡大画像のサイズ制約
+  big_rect_area_min: 40000  # 最小面積
+  big_rect_area_max: 600000  # 最大面積
+  
+  # パディング
+  padding: 12  # 拡大画像の周囲パディング（ピクセル）
+  
+  # アンカー検出
+  locate_confidence: 0.8  # アンカー画像の検出信頼度
+  
+  # デフォルトROI（画面に対する割合）
+  default_roi:
+    x_ratio: 0.75  # 画面右25%
+    y_ratio: 0.4   # 画面下60%
+    width_ratio: 0.25
+    height_ratio: 0.6
+  
+  # 左ゾーン設定（差分検出用）
+  left_zone:
+    width_ratio: 0.60  # 画面左60%
+    y_top_ratio: 0.15  # 上から15%の位置から
+    height_ratio: 0.70  # 高さ70%
+  
+  # リトライ設定
+  hover_retry_offset: 15  # リトライ時の位置オフセット（ピクセル）
+  max_retries: 1  # 最大リトライ回数
+  
+  # グリッドスキャン設定
+  grid_step: 80  # デフォルトグリッド間隔（ピクセル）
+  grid_step_x: 100000  # X方向グリッド間隔（大きくすると1列になる）
+  grid_step_y: 100  # Y方向グリッド間隔（サムネイル高さに合わせる）
+  grid_margin: 8  # ROI端からのマージン（ピクセル）
+  scan_order: "col"  # スキャン順序: "col"=列優先（上→下）、"row"=行優先（左→右）
+  use_contour_candidates: false  # 輪郭検出による候補点追加（順序の乱れを防ぐためfalse推奨）
+  
+  # 手動ROI設定（オプション）
+  # サムネイル探索範囲を手動でピクセル指定 [x, y, width, height]
+  # 未指定の場合は従来のアンカー→デフォルト比率にフォールバック
+  # manual_roi_pixels: [1500, 320, 260, 560]  # コメントアウトしてあるので無効
+  
+  # 拡大画像の取得方式
+  # "relative": マウス座標からの相対位置で固定サイズ切り出し（推奨）
+  # "zone": 画面の指定ゾーンで差分検出（従来方式）
+  big_image_mode: "relative"
+  
+  # relativeモード用：マウス位置からの相対矩形（ピクセル）
+  big_from_cursor:
+    dx: -980      # マウスから左方向のオフセット（負の値）
+    dy: -120      # マウスから上方向のオフセット（負の値）
+    width: 900    # 拡大画像の幅
+    height: 700   # 拡大画像の高さ
+  
+  # zoneモード用：差分検出ゾーンの手動指定（オプション）
+  # 指定がなければ既存のleft_zone比率設定を使用
+  # left_zone_pixels: [120, 180, 1000, 760]  # コメントアウトしてあるので無効
+
+# 画像一致判定設定
+image_matcher:
+  # pHash設定
+  phash:
+    enabled: true
+    hamming_threshold: 10  # ハミング距離の閾値（12→10に厳格化）
+    hash_size: 8  # ハッシュサイズ（8x8）
+  
+  # ORB設定
+  orb:
+    enabled: true
+    n_features: 500  # 特徴点数
+    good_match_threshold: 30  # 良好なマッチの最小数（40→30に緩和）
+    inlier_ratio_threshold: 0.30  # インライア率の閾値（0.35→0.30に緩和）
+    lowe_ratio: 0.7  # Lowe's ratio test
+    ransac_reproj_threshold: 5.0  # RANSAC再投影誤差
+  
+  # NCC（正規化相関）設定
+  ncc:
+    enabled: true
+    score_threshold: 0.90  # NCCスコアの閾値（0.82→0.90に厳格化）
+    resize_width: 300  # リサイズ幅（計算高速化）
+  
+  # 色ゲート設定
+  color_gate:
+    hsv_corr_min: 0.92  # HSVヒストグラム相関の最小値
+    deltaE50_median_max: 6.0  # Lab色空間ΔE50中央値の最大値
+  
+  # 判定設定
+  voting:
+    required_votes: 2  # 合格に必要な票数（2/3）
+    
+  # 前処理設定
+  preprocessing:
+    denoise: true  # ノイズ除去
+    enhance_contrast: false  # コントラスト強調
+    convert_gray: false  # グレースケール変換（ORBは自動）
+
+# パス設定
+paths:
+  # データ保存先
+  alibaba_data: "data/alibaba"
+  candidates_dir: "data/alibaba/candidates"
+  
+  # アンカー画像
+  anchors_dir: "assets/anchors"
+  anchor_images:
+    - "buy_btn.png"  # 立即下单（購入ボタン）
+    - "cart_btn.png"  # 加入购物车（カートボタン）
+  
+  # ログ
+  log_dir: "logs"
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+
+# パフォーマンス設定
+performance:
+  # 並列処理
+  max_workers: 1  # 並列処理数（1=シングルスレッド）
+  
+  # キャッシュ
+  cache_big_rect: true  # 拡大画像矩形のキャッシュ
+  cache_timeout: 300  # キャッシュタイムアウト（秒）
+  
+  # スクリーンショット
+  screenshot_quality: 95  # JPEGクオリティ（PNG使用時は無視）
+  use_png: true  # PNG形式を使用
+
+# デバッグ設定
+debug:
+  save_diff_images: true  # 差分画像を保存
+  save_debug_screenshots: true  # デバッグ用スクリーンショット保存
+  draw_rects: true  # 検出矩形を描画
+  verbose_logging: false  # 詳細ログ出力
